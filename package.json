@@ -10,7 +10,7 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onView:vstodo-sidebar",
+		"onView:proj-sidebar",
 		"onCommand:vscode-github-projects.helloWorld",
 		"onCommand:vscode-github-projects.showWarningMessage"
 	],
@@ -19,20 +19,20 @@
 		"viewsContainers": {
 			"activitybar": [
 				{
-					"id": "vstodo-sidebar-view",
-					"title": "VSTodo",
+					"id": "proj-sidebar-view",
+					"title": "VS-GitHub-Projects",
 					"icon": "media/project.svg"
 				}
 			]
 		},
 		"views": {
-			"vstodo-sidebar-view": [
+			"proj-sidebar-view": [
 				{
 					"type": "webview",
-					"id": "vstodo-sidebar",
-					"name": "VSTodo",
+					"id": "proj-sidebar",
+					"name": "VS-GitHub-Projects",
 					"icon": "media/project.svg",
-					"contextualTitle": "VSTodo"
+					"contextualTitle": "VS-GitHub-Projects"
 				}
 			]
 		},
