@@ -130,20 +130,20 @@ export class HomePanel {
     // );
 
     // Uri to load styles into webview
-    const stylesResetUri = webview.asWebviewUri(
-      vscode.Uri.joinPath(
-        this._extensionUri,
-        "media",
-        "reset.css"
-      )
-    );
-    const stylesMainUri = webview.asWebviewUri(
-      vscode.Uri.joinPath(
-        this._extensionUri,
-        "media",
-        "vscode.css"
-      )
-    );
+    const styleResetUri = webview.asWebviewUri(
+			vscode.Uri.joinPath(this._extensionUri, "media", "reset.css")
+		);
+		const styleVSCodeUri = webview.asWebviewUri(
+			vscode.Uri.joinPath(this._extensionUri, "media", "vscode.css")
+		);
+
+    const scriptUri = webview.asWebviewUri(
+			vscode.Uri.joinPath(this._extensionUri, "out", "compiled/home.js")
+		);
+		const styleMainUri = webview.asWebviewUri(
+			vscode.Uri.joinPath(this._extensionUri, "out", "compiled/home.css")
+		);
+
     // const cssUri = webview.asWebviewUri(
     //   vscode.Uri.joinPath(this._extensionUri, "out", "compiled/swiper.css")
     // );
@@ -162,15 +162,15 @@ export class HomePanel {
         <meta http-equiv="Content-Security-Policy" content="img-src https: data:; style-src 'unsafe-inline' ${webview.cspSource
       }; script-src 'nonce-${nonce}';">
 				<meta name="viewport" content="width=device-width, initial-scale=1.0">
-				<link href="${stylesResetUri}" rel="stylesheet">
-				<link href="${stylesMainUri}" rel="stylesheet">
-        <link href="" rel="stylesheet">
+				<link href="${styleResetUri}" rel="stylesheet">
+				<link href="${styleVSCodeUri}" rel="stylesheet">
+        <link href="${styleMainUri}" rel="stylesheet">
         <script nonce="${nonce}">
         </script>
 			</head>
       <body>
 			</body>
-				<h1>Hello World!</h1>
+        <script nonce="${nonce}" src="${scriptUri}"></script>
 			</html>`;
   }
 }
