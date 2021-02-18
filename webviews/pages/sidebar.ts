@@ -1,4 +1,3 @@
-import { DocumentHighlight } from "vscode";
 import App from "../components/Sidebar.svelte";
 
 const app = new App({
