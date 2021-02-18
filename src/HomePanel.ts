@@ -13,6 +13,7 @@ export class HomePanel {
   private readonly _extensionUri: vscode.Uri;
   private _disposables: vscode.Disposable[] = [];
 
+  //create main display window
   public static createOrShow(extensionUri: vscode.Uri, data: any) {
     const column = vscode.window.activeTextEditor
       ? vscode.window.activeTextEditor.viewColumn
