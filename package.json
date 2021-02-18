@@ -80,7 +80,10 @@
 		"vscode-test": "^1.5.0"
 	},
 	"dependencies": {
+		"@apollo/client": "^3.3.11",
 		"@pyoner/svelte-ts-preprocess": "^1.3.0",
-		"svelte": "^3.32.3"
+		"graphql": "^15.5.0",
+		"svelte": "^3.32.3",
+		"svelte-apollo": "^0.4.0"
 	}
 }
