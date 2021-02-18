@@ -1,11 +1,15 @@
 import * as vscode from "vscode";
 import { getNonce } from "./getNonce";
+import { HomePanel } from './HomePanel';
 
 export class SidebarProvider implements vscode.WebviewViewProvider {
 	_view?: vscode.WebviewView;
 	_doc?: vscode.TextDocument;
+	ext_uri?: vscode.Uri;
 
-	constructor(private readonly _extensionUri: vscode.Uri) { }
+	constructor(private readonly _extensionUri: vscode.Uri) { 
+		this.ext_uri = _extensionUri;
+	}
 
 	public resolveWebviewView(webviewView: vscode.WebviewView) {
 		this._view = webviewView;
@@ -21,6 +25,18 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 
 		webviewView.webview.onDidReceiveMessage(async (data) => {
 			switch (data.type) {
+				case "onSignIn": { //run on recieving "onSignIn" message
+					if (!data.value) {
+						return;
+					}
+					/**
+					 * TODO: GitHub OAuth configuration
+					 */
+					if(this.ext_uri){
+						HomePanel.createOrShow(this.ext_uri, {}); //create a Homepanel window on sign in
+					}
+					break;
+				}
 				case "onInfo": {
 					if (!data.value) {
 						return;
@@ -74,6 +90,9 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 				<link href="${styleResetUri}" rel="stylesheet">
 				<link href="${styleVSCodeUri}" rel="stylesheet">
         <link href="${styleMainUri}" rel="stylesheet">
+				<script nonce="${nonce}">
+					const ext_vscode = acquireVsCodeApi();
+				</script>
 			</head>
       <body>
 				<script nonce="${nonce}" src="${scriptUri}"></script>
