@@ -4,14 +4,30 @@
   import ProjectsList from "./ProjectsList.svelte";
   import ProjectInfo from "./ProjectInfo.svelte";
 
-  const client = new ApolloClient({
-    uri: "https://api.github.com/graphql",
-    cache: new InMemoryCache(),
-    headers: {
-      authorization: "Bearer xxxx",
-    },
+  let session;
+
+  window.addEventListener("message", async (event) => {
+    const message = event.data;
+    switch (message.command) {
+      case "authComplete":
+        console.log(message.payload.session);
+        session = message.payload.session;
+    }
   });
-  setClient(client);
+
+  let client;
+  $: {
+    if (session) {
+      client = new ApolloClient({
+        uri: "https://api.github.com/graphql",
+        cache: new InMemoryCache(),
+        headers: {
+          authorization: `Bearer ${session.accessToken}`,
+        },
+      });
+      setClient(client);
+    }
+  }
 
   let selectedContainer;
   let selectedProject;
@@ -23,7 +39,9 @@
   }
 </script>
 
-{#if !selectedProject}
+{#if !client}
+  <p>Loading</p>
+{:else if !selectedProject}
   <ProjectsList on:message={handleMessage} />
 {:else if selectedContainer.type === "repo"}
   <ProjectInfo

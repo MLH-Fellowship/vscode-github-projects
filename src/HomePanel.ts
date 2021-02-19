@@ -23,6 +23,12 @@ export class HomePanel {
     if (HomePanel.currentPanel) {
       HomePanel.currentPanel._panel.reveal(column);
       HomePanel.currentPanel._update();
+
+      HomePanel.currentPanel._panel.webview.postMessage({
+        command: "authComplete",
+        payload: { session: data.session },
+      });
+
       return;
     }
 
@@ -44,6 +50,11 @@ export class HomePanel {
     );
 
     HomePanel.currentPanel = new HomePanel(panel, extensionUri);
+
+    HomePanel.currentPanel._panel.webview.postMessage({
+      command: "authComplete",
+      payload: { session: data.session },
+    });
   }
 
   public static kill() {
@@ -156,11 +167,12 @@ export class HomePanel {
       <link href="${stylesResetUri}" rel="stylesheet">
       <link href="${stylesMainUri}" rel="stylesheet">
       <script nonce="${nonce}">
+        
       </script>
     </head>
     <body>
+      <script nonce="${nonce}" src="${scriptUri}">
     </body>
-    <script src="${scriptUri}" nonce="${nonce}">
     </html>`;
   }
 }

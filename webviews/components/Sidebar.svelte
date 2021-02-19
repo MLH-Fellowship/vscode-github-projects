@@ -1,7 +1,7 @@
 <script>
 </script>
 
-<!-- <div>
+<div>
   <p>Sign in with GitHub to get started.</p>
   <button
     on:click={ 
@@ -10,4 +10,4 @@
       }
     }
   > Sign in with GitHub </button>
-</div> -->
+</div>
