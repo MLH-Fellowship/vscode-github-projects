@@ -45,6 +45,12 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
             vscode.window.showInformationMessage(
               "Signed In as: '" + session.account.label + "'"
             );
+
+            webviewView.webview.postMessage({
+              command: "authComplete",
+              payload: { session: session },
+            });
+
             if (this.ext_uri) {
               HomePanel.createOrShow(this.ext_uri, {session: session}); //create a Homepanel window on sign in
             }
