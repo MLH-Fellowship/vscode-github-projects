@@ -94,12 +94,14 @@
             owner: owner,
             number: parseInt(number),
           },
+          pollInterval: 1800,
         })
       : query(GET_ORG_PROJECT_INFO, {
           variables: {
             login: login,
             number: parseInt(number),
           },
+          pollInterval: 1800,
         });
 
   let project;
@@ -130,7 +132,7 @@
         <h2>{column.name}</h2>
         {#each column.cards.nodes as card}
           {#if card.note && !card.isArchived}
-            <div style="border-style: solid; border-width: 1px; border-radius: 5px; margin-bottom: 1rem">
+            <div>
               <p>{card.note}</p>
             </div>
           {:else if card.content && card.content.title}
