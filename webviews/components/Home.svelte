@@ -1,6 +1,7 @@
-<script lang="ts">
+<script>
   import { ApolloClient, InMemoryCache } from "@apollo/client";
   import { setClient } from "svelte-apollo";
+  import ProjectsList from "./ProjectsList.svelte";
   import ProjectInfo from "./ProjectInfo.svelte";
 
   const client = new ApolloClient({
@@ -11,6 +12,30 @@
     },
   });
   setClient(client);
+
+  let selectedContainer;
+  let selectedProject;
+
+  function handleMessage(event) {
+    selectedContainer = event.detail.container;
+    selectedProject = event.detail.project;
+    console.log(selected);
+  }
 </script>
 
-<ProjectInfo type="org" login="petcodeapp" number='1'/>
+{#if !selectedProject}
+  <ProjectsList on:message={handleMessage} />
+{:else if selectedContainer.type === "repo"}
+  <ProjectInfo
+    type="repo"
+    name={selectedContainer.name}
+    owner={selectedContainer.owner}
+    number={selectedProject.number}
+  />
+{:else if selectedContainer.type === "org"}
+  <ProjectInfo
+    type="org"
+    login={selectedContainer.login}
+    number={selectedProject.number}
+  />
+{/if}

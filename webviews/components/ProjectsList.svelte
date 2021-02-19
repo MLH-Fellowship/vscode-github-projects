@@ -1,6 +1,9 @@
 <script>
   import { gql } from "@apollo/client";
   import { query } from "svelte-apollo";
+  import { createEventDispatcher } from "svelte";
+
+  const dispatch = createEventDispatcher();
 
   const GET_CONTAINER_WITH_PROJECT = gql`
     query GetContainerWithProject {
@@ -14,6 +17,7 @@
                 name
                 body
                 number
+                closed
               }
             }
           }
@@ -32,6 +36,7 @@
                 name
                 body
                 number
+                closed
               }
             }
           }
@@ -50,25 +55,33 @@
       if ($containersInfo.data.viewer.organizations) {
         for (let organization of $containersInfo.data.viewer.organizations
           .nodes) {
-          containers = [...containers, organization];
+          let newOrg = addType(organization, "org");
+          containers = [...containers, newOrg];
         }
       }
       if ($containersInfo.data.viewer.repositories) {
         for (let repo of $containersInfo.data.viewer.repositories.nodes) {
-          containers = [...containers, repo];
+          let newRepo = addType(repo, "repo");
+          containers = [...containers, newRepo];
         }
       }
     }
   }
-</script>
 
-<style>
-  button {
-    text-align: left;
-    margin: 5px, 5px, 5px, 5px;
-
+  function handleSelectProject(container, project) {
+    dispatch("message", {
+      container: container,
+      project: project,
+    });
   }
-</style>
+
+  function addType(data, type) {
+    return {
+      ...data,
+      type: type,
+    };
+  }
+</script>
 
 {#if $containersInfo.loading}
   Loading...
@@ -79,11 +92,19 @@
     <h3>{container.name}</h3>
     {#if container.projects}
       {#each container.projects.nodes as project}
-        <button>{project.name}</button>
-        <!-- <p>{project.body}</p> -->
-        <!-- <p>{project.number}</p> -->
+        {#if !project.closed}
+          <button on:click={handleSelectProject(container, project)}
+            >{project.name}</button
+          >
+        {/if}
       {/each}
     {/if}
-    <!-- <p>{container.login ?? container.owner.login}</p> -->
   {/each}
 {/if}
+
+<style>
+  button {
+    text-align: left;
+    margin: 5px, 5px, 5px, 5px;
+  }
+</style>
