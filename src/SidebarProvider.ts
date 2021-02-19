@@ -1,4 +1,5 @@
 import * as vscode from "vscode";
+import { Credentials } from "./authentication";
 import { getNonce } from "./getNonce";
 import { HomePanel } from './HomePanel';
 
@@ -6,9 +7,11 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 	_view?: vscode.WebviewView;
 	_doc?: vscode.TextDocument;
 	ext_uri?: vscode.Uri;
+	context: vscode.ExtensionContext;
 
-	constructor(private readonly _extensionUri: vscode.Uri) { 
+	constructor(private readonly _extensionUri: vscode.Uri, currentContext: vscode.ExtensionContext) { 
 		this.ext_uri = _extensionUri;
+		this.context = currentContext;
 	}
 
 	public resolveWebviewView(webviewView: vscode.WebviewView) {
@@ -29,9 +32,18 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 					if (!data.value) {
 						return;
 					}
-					/**
-					 * TODO: GitHub OAuth configuration
-					 */
+					const credentials = new Credentials();
+					await credentials.initialize(this.context);
+
+					const session = await credentials.getSession();
+
+					if (session) {
+						vscode.window.showInformationMessage("Signed In as: '" + session.account.label + "'");
+					}
+					else {
+						// Do nothing
+					}
+
 					if(this.ext_uri){
 						HomePanel.createOrShow(this.ext_uri, {}); //create a Homepanel window on sign in
 					}
