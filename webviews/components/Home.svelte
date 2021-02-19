@@ -46,7 +46,7 @@
   <ProjectInfo
     type="repo"
     name={selectedContainer.name}
-    owner={selectedContainer.owner}
+    owner={selectedContainer.owner.login}
     number={selectedProject.number}
   />
 {:else if selectedContainer.type === "org"}

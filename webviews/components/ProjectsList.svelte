@@ -63,6 +63,7 @@
         for (let repo of $containersInfo.data.viewer.repositories.nodes) {
           let newRepo = addType(repo, "repo");
           containers = [...containers, newRepo];
+          console.log(newRepo);
         }
       }
     }
