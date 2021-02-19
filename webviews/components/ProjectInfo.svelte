@@ -13,8 +13,13 @@
               name
               cards(first: 100) {
                 nodes {
-                  content
+                  content {
+                    ...fieldsIssue
+                    ...fieldsPR
+                  }
                   note
+                  isArchived
+                  state
                 }
               }
             }
@@ -27,6 +32,14 @@
         remaining
         resetAt
       }
+    }
+
+    fragment fieldsIssue on Issue {
+      title
+    }
+
+    fragment fieldsPR on PullRequest {
+      title
     }
   `;
 
@@ -41,8 +54,13 @@
               name
               cards(first: 100) {
                 nodes {
-                  content
+                  content {
+                    ...fieldsIssue
+                    ...fieldsPR
+                  }
                   note
+                  isArchived
+                  state
                 }
               }
             }
@@ -55,6 +73,14 @@
         remaining
         resetAt
       }
+    }
+
+    fragment fieldsIssue on Issue {
+      title
+    }
+
+    fragment fieldsPR on PullRequest {
+      title
     }
   `;
 
@@ -99,8 +125,10 @@
   {#each project.columns.nodes as column}
     <h3>{column.name}</h3>
     {#each column.cards.nodes as card}
-      {#if card.note}
+      {#if card.note && !card.isArchived}
         <p>{card.note}</p>
+      {:else if card.content && card.content.title}
+        <p>{card.content.title}</p>
       {/if}
     {/each}
   {/each}

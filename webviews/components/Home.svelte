@@ -13,4 +13,4 @@
   setClient(client);
 </script>
 
-<ProjectInfo type="repo" name="vscode-github-projects" owner='Open-Sourced-Olaf' number='2'/>
+<ProjectInfo type="org" login="petcodeapp" number='1'/>
