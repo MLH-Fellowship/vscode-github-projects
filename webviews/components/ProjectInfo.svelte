@@ -122,14 +122,22 @@
 {:else}
   <h2>{project.name}</h2>
   <h2>{project.body}</h2>
-  {#each project.columns.nodes as column}
-    <h3>{column.name}</h3>
-    {#each column.cards.nodes as card}
-      {#if card.note && !card.isArchived}
-        <p>{card.note}</p>
-      {:else if card.content && card.content.title}
-        <p>{card.content.title}</p>
-      {/if}
+  <div style="display: flex; flex-direction: row;">
+    {#each project.columns.nodes as column}
+      <div
+        style="border-style: solid; border-color: white; border-width: 1px; border-radius: 5px; display: flex; flex-direction: column; margin-right: 1rem"
+      >
+        <h2>{column.name}</h2>
+        {#each column.cards.nodes as card}
+          {#if card.note && !card.isArchived}
+            <div style="border-style: solid; border-width: 1px; border-radius: 5px; margin-bottom: 1rem">
+              <p>{card.note}</p>
+            </div>
+          {:else if card.content && card.content.title}
+            <p>{card.content.title}</p>
+          {/if}
+        {/each}
+      </div>
     {/each}
-  {/each}
+  </div>
 {/if}
