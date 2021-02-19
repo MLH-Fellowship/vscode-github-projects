@@ -124,13 +124,13 @@
   <h2>{project.body}</h2>
   <div style="display: flex; flex-direction: row;">
     {#each project.columns.nodes as column}
-      <div
-        style="border-style: solid; border-color: white; border-width: 1px; border-radius: 5px; display: flex; flex-direction: column; margin-right: 1rem"
-      >
+      <div class="col">
         <h2>{column.name}</h2>
         {#each column.cards.nodes as card}
           {#if card.note && !card.isArchived}
-            <div style="border-style: solid; border-width: 1px; border-radius: 5px; margin-bottom: 1rem">
+            <div
+              style="border-style: solid; border-width: 1px; border-radius: 5px; margin-bottom: 1rem"
+            >
               <p>{card.note}</p>
             </div>
           {:else if card.content && card.content.title}
@@ -141,3 +141,17 @@
     {/each}
   </div>
 {/if}
+
+<style>
+  .col {
+    border-style: solid;
+    border-color: white;
+    border-width: 1px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    margin-right: 1rem;
+    min-width: 5rem;
+
+  }
+</style>
