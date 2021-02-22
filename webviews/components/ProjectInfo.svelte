@@ -122,21 +122,40 @@
 {:else if $projectInfo.error}
   Error: {$projectInfo.error.message}
 {:else}
-  <h2>{project.name}</h2>
+  <h1>{project.name}</h1>
   <h2>{project.body}</h2>
   <div style="display: flex; flex-direction: row;">
     {#each project.columns.nodes as column}
       <div
-        style="border-style: solid; border-color: white; border-width: 1px; border-radius: 5px; display: flex; flex-direction: column; margin-right: 1rem"
+        style="border-style: solid;
+      border-color: white;
+      border-width: 1px;
+      border-radius: 5px;
+      display: flex;
+      flex-direction: column;
+      padding: 1rem 1rem 1rem 1rem;
+      margin-right: 1rem;
+      min-width: 15rem;"
       >
         <h2>{column.name}</h2>
         {#each column.cards.nodes as card}
-          {#if card.note && !card.isArchived}
-            <div>
-              <p>{card.note}</p>
+          {#if !card.isArchived}
+            <div
+              style="border-style: solid;
+        border-color: white;
+        border-width: 1px;
+        border-radius: 5px;
+        padding: 1rem 1rem 1rem 1rem;
+        margin-top: 1rem;"
+            >
+              {#if card.note}
+                <div>
+                  <p>{card.note}</p>
+                </div>
+              {:else if card.content && card.content.title}
+                <p>{card.content.title}</p>
+              {/if}
             </div>
-          {:else if card.content && card.content.title}
-            <p>{card.content.title}</p>
           {/if}
         {/each}
       </div>
