@@ -1,6 +1,7 @@
 <script>
   import { gql } from "@apollo/client";
   import { query } from "svelte-apollo";
+  import Columns from "./Columns.svelte";
 
   const GET_REPO_PROJECT_INFO = gql`
     query GetRepoProjectInfo($name: String!, $owner: String!, $number: Int!) {
@@ -106,6 +107,8 @@
 
   let project;
 
+  let columns = [];
+
   $: {
     if ($projectInfo.data) {
       project =
@@ -113,8 +116,17 @@
           ? $projectInfo.data.repository.project
           : $projectInfo.data.organization.project;
       console.log(project);
+
+      if (project.columns) {
+        columns = project.columns.nodes.map((column) => ({
+          name: column.name,
+          cards: column.cards ? column.cards.nodes : null,
+        }));
+      }
     }
   }
+
+  
 </script>
 
 {#if $projectInfo.loading}
@@ -124,41 +136,5 @@
 {:else}
   <h1>{project.name}</h1>
   <h2>{project.body}</h2>
-  <div style="display: flex; flex-direction: row;">
-    {#each project.columns.nodes as column}
-      <div
-        style="border-style: solid;
-      border-color: white;
-      border-width: 1px;
-      border-radius: 5px;
-      display: flex;
-      flex-direction: column;
-      padding: 1rem 1rem 1rem 1rem;
-      margin-right: 1rem;
-      min-width: 15rem;"
-      >
-        <h2>{column.name}</h2>
-        {#each column.cards.nodes as card}
-          {#if !card.isArchived}
-            <div
-              style="border-style: solid;
-        border-color: white;
-        border-width: 1px;
-        border-radius: 5px;
-        padding: 1rem 1rem 1rem 1rem;
-        margin-top: 1rem;"
-            >
-              {#if card.note}
-                <div>
-                  <p>{card.note}</p>
-                </div>
-              {:else if card.content && card.content.title}
-                <p>{card.content.title}</p>
-              {/if}
-            </div>
-          {/if}
-        {/each}
-      </div>
-    {/each}
-  </div>
+  <Columns columns={columns}/>
 {/if}
