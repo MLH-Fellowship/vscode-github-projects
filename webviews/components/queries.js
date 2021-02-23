@@ -1,5 +1,7 @@
 import { gql } from "@apollo/client";
 
+// Card Mutations
+
 export const EDIT_CARD = gql`
     mutation EDIT_CARD($isArchived: Boolean, $note: String, $projectCardId: ID!) {
       updateProjectCard(input: {isArchived: $isArchived, note: $note, projectCardId: $projectCardId }) {
@@ -43,11 +45,38 @@ export const CONVERT_CARD_TO_ISSUE = gql`
 
   `;
 
+// Column Mutations
+
+export const DELETE_COLUMN = gql`
+    mutation DELETE_COLUMN($columnId: ID!) {
+      deleteProjectColumn(input: { columnId: $columnId }) {
+        clientMutationId
+      }
+    }
+  `;
+
+export const ADD_COLUMN = gql`
+    mutation ADD_COLUMN($name: String!, $projectId: ID!) {
+      addProjectColumn(input : { name: $name, projectId: $projectId }) {
+        clientMutationId
+      }
+    }
+  `;
+
+export const EDIT_COLUMN = gql`
+    mutation EDIT_COLUMN($name: String!, $projectColumnId: ID!) {
+      updateProjectColumn(input : { name: $name, projectColumnId: $projectColumnId }) {
+        clientMutationId
+      }
+    }
+  `;
+
 export const GET_REPO_PROJECT_INFO = gql`
     query GetRepoProjectInfo($name: String!, $owner: String!, $number: Int!) {
       repository(name: $name, owner: $owner) {
         id
         project(number: $number) {
+          id
           name
           body
           columns(first: 100) {
@@ -91,6 +120,7 @@ export const GET_ORG_PROJECT_INFO = gql`
     query GetOrgProjectInfo($login: String!, $number: Int!) {
       organization(login: $login) {
         project(number: $number) {
+          id
           name
           body
           columns(first: 100) {
