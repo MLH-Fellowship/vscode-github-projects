@@ -10,6 +10,7 @@
       viewer {
         organizations(first: 100) {
           nodes {
+            id
             name
             login
             projects(first: 100) {
@@ -27,6 +28,7 @@
           first: 100
         ) {
           nodes {
+            id
             name
             owner {
               login
@@ -50,7 +52,7 @@
   let containers = [];
 
   $: {
-    console.log($containersInfo);
+    // console.log($containersInfo);
     if ($containersInfo.data) {
       if ($containersInfo.data.viewer.organizations) {
         for (let organization of $containersInfo.data.viewer.organizations
@@ -63,7 +65,7 @@
         for (let repo of $containersInfo.data.viewer.repositories.nodes) {
           let newRepo = addType(repo, "repo");
           containers = [...containers, newRepo];
-          console.log(newRepo);
+          // console.log(newRepo);
         }
       }
     }
