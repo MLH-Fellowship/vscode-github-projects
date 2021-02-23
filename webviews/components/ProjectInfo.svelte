@@ -49,8 +49,6 @@
   const addColumn = mutation(queries.ADD_COLUMN);
   const deleteColumn = mutation(queries.DELETE_COLUMN);
   const editColumn = mutation(queries.EDIT_COLUMN);
-  const switchColumnArchive = mutation(queries.SWITCH_COLUMN_ARCHIVE);
-  const deleteColumnCard = mutation(queries.DELETE_COLUMN_CARD);
 
   // Project mutations
   const addProject = mutation(queries.ADD_PROJECT);
