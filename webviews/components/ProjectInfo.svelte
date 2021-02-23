@@ -12,14 +12,14 @@
             owner: owner,
             number: parseInt(number),
           },
-          pollInterval: 100,
+          pollInterval: 1800,
         })
       : query(queries.GET_ORG_PROJECT_INFO, {
           variables: {
             login: login,
             number: parseInt(number),
           },
-          pollInterval: 100,
+          pollInterval: 1800,
         });
 
   let project;
