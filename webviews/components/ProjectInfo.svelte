@@ -75,6 +75,9 @@
           if(payload.switchArchive) {
             isArchived = !isArchived;
           }
+          if(payload.override != undefined) {
+            isArchived = payload.override;
+          }
           editCard({ variables: { isArchived: isArchived, note: payload.note, projectCardId: card.id}});
           break;
 
@@ -104,28 +107,28 @@
     }
   }
 
+  // override variable for archiving
+  let overrideArchived = false;
   async function handleColumnMutations(column, request, payload) {
     try {
       switch (request) {
         case "addColumn":
-          addColumn(payload);
+          addColumn({ variables: { name: payload.name, projectId: payload.project.id }});
           break;
 
         case "deleteColumn":
-          deleteColumn(column);
+          deleteColumn({ variables: { columnId: column.id }});
           break;
 
         case "editColumn":
-          editColumn(column, payload);          
+          editColumn({ variables: { name: payload.name, projectColumnId: column.id }});
           break;
 
         case "switchColumnArchive":
-          switchColumnArchive(column);
-          break;
-
-        case "deleteColumnCards":
+          overrideArchived = !overrideArchived;
           column.cards.nodes.forEach(card => {
-            deleteColumnCard(card);
+            let archivePayload = {"override" : overrideArchived};
+            handleCardMutations(card, "editCard", archivePayload);
           });
           break;
 
@@ -173,10 +176,14 @@
   <h2>{project.name}</h2>
   <h2>{project.body}</h2>
   <div style="display: flex; flex-direction: row;">
+    <button style="width=20px" on:click="{handleColumnMutations(null, "addColumn", {"project": project, "name": "Get this from user."})}">Add Column</button>
     {#each project.columns.nodes as column}
       <div
         style="border-style: solid; border-color: white; border-width: 1px; border-radius: 5px; display: flex; flex-direction: column; margin-right: 1rem"
       >
+        <button on:click="{handleColumnMutations(column, "deleteColumn")}">Delete Column</button>
+        <button on:click="{handleColumnMutations(column, "switchColumnArchive")}">Switch Archive</button>
+        <button on:click="{handleColumnMutations(column, "editColumn", {"name": "Get this from user."})}">Edit Column</button>
         <h2>{column.name}</h2>
         <button on:click="{handleCardMutations(null, "addCard", {"column": column, "note": "Get this from user."})}">Add Card</button>
         {#each column.cards.nodes as card}
