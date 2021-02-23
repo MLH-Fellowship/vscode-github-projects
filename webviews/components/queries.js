@@ -71,6 +71,30 @@ export const EDIT_COLUMN = gql`
     }
   `;
 
+export const ADD_PROJECT = gql`
+    mutation ADD_PROJECT($body: String, $name: String!, $ownerId: ID!, $repositoryIds: [ID!], $template: ProjectTemplate) {
+      createProject(input : { body: $body, name: $name, ownerId: $ownerId, repositoryIds: $repositoryIds, template: $template }) {
+        clientMutationId
+      }
+    }
+  `;
+
+export const CLOSE_PROJECT = gql`
+    mutation CLOSE_PROJECT($projectId: ID!) {
+      createProject(input : { projectId: $projectId }) {
+        clientMutationId
+      }
+    }
+  `;
+
+export const EDIT_PROJECT = gql`
+    mutation EDIT_PROJECT($body: String, $name: String, $projectId: ID!, $public: Boolean, $state: ProjectState) {
+      createProject(input : { $body: body, name: $name, projectId: $projectId, public: $public, state: $state }) {
+        clientMutationId
+      }
+    }
+  `;
+
 export const GET_REPO_PROJECT_INFO = gql`
     query GetRepoProjectInfo($name: String!, $owner: String!, $number: Int!) {
       repository(name: $name, owner: $owner) {
