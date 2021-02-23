@@ -140,19 +140,44 @@
     }
   }
 
+  // types of projects
+  const projectType = { 1: "AUTOMATED_KANBAN_V2", 2: "AUTOMATED_REVIEWS_KANBAN", 3: "BASIC_KANBAN", 4: "BUG_TRIAGE"};
+  // types of states
+  const projectState = { 0: "CLOSED", 1: "OPEN"};
   async function handleProjectMutations(project, request, payload) {
     try {
       switch (request) {
         case "addProject":
-          addProject(payload);
+          repositories = payload.repositories;
+          let repoIds = repositories.forEach((repo) => {
+            repo.id
+          });
+          addProject({ variables: { body: payload.body, name: payload.name, ownerId: project.owner.id, repositoryIds: repoIds, template: projectType[payload.projectType] }});
           break;
 
         case "closeProject":
-          closeProject(project);
+          closeProject({ variables: { projectId: project.id }});
           break;
 
         case "editProject":
-          editProject(project, payload);          
+          const body = payload.body;
+          const name = payload.name;
+          const visibility = payload.visibility;
+          const state = projectState[payload.state];
+
+          if(!body) {
+            body = project.body;
+          }
+          if(!name) {
+            name = project.name;
+          }
+          if(!visibility) {
+            visibility = project.public;
+          }
+          if(!state) {
+            state = project.state;
+          }
+          editProject({ variables: { body: body, name: name, projectId: project.id, public: visibility, state: state }});
           break;
 
         default:
