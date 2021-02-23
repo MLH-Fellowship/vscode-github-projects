@@ -7,14 +7,15 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
   _view?: vscode.WebviewView;
   _doc?: vscode.TextDocument;
   ext_uri?: vscode.Uri;
-  context: vscode.ExtensionContext;
+  credentials: Credentials;
 
   constructor(
     private readonly _extensionUri: vscode.Uri,
     currentContext: vscode.ExtensionContext
   ) {
     this.ext_uri = _extensionUri;
-    this.context = currentContext;
+    this.credentials = new Credentials();
+    this.credentials.initialize(currentContext);
   }
 
   public resolveWebviewView(webviewView: vscode.WebviewView) {
@@ -36,15 +37,14 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
           if (!data.value) {
             return;
           }
-          const credentials = new Credentials();
-          await credentials.initialize(this.context);
-
-          const session = await credentials.getSession();
+          const session = await this.credentials.getSession();
 
           if (session) {
-            vscode.window.showInformationMessage(
-              "Signed In as: '" + session.account.label + "'"
-            );
+            if (data.value !== "noNotification") {
+              vscode.window.showInformationMessage(
+                "Signed In as: '" + session.account.label + "'"
+              );
+            }
 
             webviewView.webview.postMessage({
               command: "authComplete",
@@ -55,7 +55,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
               HomePanel.createOrShow(this.ext_uri, {session: session}); //create a Homepanel window on sign in
             }
           } else {
-            // Do nothing
+            vscode.window.showErrorMessage("Could not authenticate with GitHub, please try again.");
           }
 
           break;
