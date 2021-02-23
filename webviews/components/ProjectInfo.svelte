@@ -1,110 +1,29 @@
 <script>
-  import { gql } from "@apollo/client";
-  import { query } from "svelte-apollo";
-
-  const GET_REPO_PROJECT_INFO = gql`
-    query GetRepoProjectInfo($name: String!, $owner: String!, $number: Int!) {
-      repository(name: $name, owner: $owner) {
-        project(number: $number) {
-          name
-          body
-          columns(first: 100) {
-            nodes {
-              name
-              cards(first: 100) {
-                nodes {
-                  content {
-                    ...fieldsIssue
-                    ...fieldsPR
-                  }
-                  note
-                  isArchived
-                  state
-                }
-              }
-            }
-          }
-        }
-      }
-      rateLimit {
-        limit
-        cost
-        remaining
-        resetAt
-      }
-    }
-
-    fragment fieldsIssue on Issue {
-      title
-    }
-
-    fragment fieldsPR on PullRequest {
-      title
-    }
-  `;
-
-  const GET_ORG_PROJECT_INFO = gql`
-    query GetOrgProjectInfo($login: String!, $number: Int!) {
-      organization(login: $login) {
-        project(number: $number) {
-          name
-          body
-          columns(first: 100) {
-            nodes {
-              name
-              cards(first: 100) {
-                nodes {
-                  content {
-                    ...fieldsIssue
-                    ...fieldsPR
-                  }
-                  note
-                  isArchived
-                  state
-                }
-              }
-            }
-          }
-        }
-      }
-      rateLimit {
-        limit
-        cost
-        remaining
-        resetAt
-      }
-    }
-
-    fragment fieldsIssue on Issue {
-      title
-    }
-
-    fragment fieldsPR on PullRequest {
-      title
-    }
-  `;
+  import { mutation, query } from "svelte-apollo";
+  import * as queries from "./queries.js";
 
   export let type, name, owner, login, number;
 
   const projectInfo =
     type === "repo"
-      ? query(GET_REPO_PROJECT_INFO, {
+      ? query(queries.GET_REPO_PROJECT_INFO, {
           variables: {
             name: name,
             owner: owner,
             number: parseInt(number),
           },
-          pollInterval: 1800,
+          pollInterval: 100,
         })
-      : query(GET_ORG_PROJECT_INFO, {
+      : query(queries.GET_ORG_PROJECT_INFO, {
           variables: {
             login: login,
             number: parseInt(number),
           },
-          pollInterval: 1800,
+          pollInterval: 100,
         });
 
   let project;
+  let repoId;
 
   $: {
     if ($projectInfo.data) {
@@ -112,7 +31,136 @@
         type === "repo"
           ? $projectInfo.data.repository.project
           : $projectInfo.data.organization.project;
-      console.log(project);
+      repoId = 
+        type === "repo"
+          ? $projectInfo.data.repository.id
+          : null
+    }
+  }
+
+  // Card mutations
+  const addCard = mutation(queries.ADD_CARD);
+  const deleteCard = mutation(queries.DELETE_CARD);
+  const editCard = mutation(queries.EDIT_CARD);
+  const switchCardColumn = mutation(queries.SWITCH_CARD_COLUMN);
+  const convertCardToIssue = mutation(queries.CONVERT_CARD_TO_ISSUE);
+
+  // Column mutations
+  const addColumn = mutation(queries.ADD_COLUMN);
+  const deleteColumn = mutation(queries.DELETE_COLUMN);
+  const editColumn = mutation(queries.EDIT_COLUMN);
+  const switchColumnArchive = mutation(queries.SWITCH_COLUMN_ARCHIVE);
+  const deleteColumnCard = mutation(queries.DELETE_COLUMN_CARD);
+
+  // Project mutations
+  const addProject = mutation(queries.ADD_PROJECT);
+  const closeProject = mutation(queries.CLOSE_PROJECT);
+  const editProject = mutation(queries.EDIT_PROJECT);
+
+
+  async function handleCardMutations(card, request, payload) {
+    try {
+      switch (request) {
+        case "addCard":
+          // TODO: Use ContentID to link card to an Issue or a PR
+          addCard({ variables: { contentId: null, note: payload.note, projectColumnId: payload.column.id}});
+          break;
+
+        case "deleteCard":
+          deleteCard({ variables: { cardId: card.id }});
+          break;
+
+        case "editCard":
+          let isArchived = card.isArchived;
+          if(payload.switchArchive) {
+            isArchived = !isArchived;
+          }
+          editCard({ variables: { isArchived: isArchived, note: payload.note, projectCardId: card.id}});
+          break;
+
+        case "switchCardColumn":
+          // TODO: This is untested, use payload to add a `toColumn` parameter
+          switchCardColumn({ variables: { afterCardId: null, cardId: card.id, columnId: payload.toColumn.id }});
+          break;
+
+        case "convertCardToIssue":
+          if(!repoId) {
+            throw Error("Cannot convert non-repository cards to issues.");            
+          }
+          let title = null;
+          if(payload.title) { 
+            title = payload.title;
+          }
+          convertCardToIssue({ variables: { body: payload.body, projectCardId: card.id, repositoryId: repoId, title: title}});
+          break;
+
+        default:
+          break;
+      }
+    } catch (error) {
+      // TODO: this throws an error:
+      // ext_vscode.postMessage({ type: "onError", value: error.message });
+      console.log(error.message);
+    }
+  }
+
+  async function handleColumnMutations(column, request, payload) {
+    try {
+      switch (request) {
+        case "addColumn":
+          addColumn(payload);
+          break;
+
+        case "deleteColumn":
+          deleteColumn(column);
+          break;
+
+        case "editColumn":
+          editColumn(column, payload);          
+          break;
+
+        case "switchColumnArchive":
+          switchColumnArchive(column);
+          break;
+
+        case "deleteColumnCards":
+          column.cards.nodes.forEach(card => {
+            deleteColumnCard(card);
+          });
+          break;
+
+        default:
+          break;
+      }
+    } catch (error) {
+      // TODO: this throws an error:
+      // ext_vscode.postMessage({ type: "onError", value: error.message });
+      console.log(error.message);
+    }
+  }
+
+  async function handleProjectMutations(project, request, payload) {
+    try {
+      switch (request) {
+        case "addProject":
+          addProject(payload);
+          break;
+
+        case "closeProject":
+          closeProject(project);
+          break;
+
+        case "editProject":
+          editProject(project, payload);          
+          break;
+
+        default:
+          break;
+      }
+    } catch (error) {
+      // TODO: this throws an error:
+      // ext_vscode.postMessage({ type: "onError", value: error.message });
+      console.log(error.message);
     }
   }
 </script>
@@ -130,6 +178,7 @@
         style="border-style: solid; border-color: white; border-width: 1px; border-radius: 5px; display: flex; flex-direction: column; margin-right: 1rem"
       >
         <h2>{column.name}</h2>
+        <button on:click="{handleCardMutations(null, "addCard", {"column": column, "note": "Get this from user."})}">Add Card</button>
         {#each column.cards.nodes as card}
           {#if card.note && !card.isArchived}
             <div>
@@ -138,7 +187,13 @@
           {:else if card.content && card.content.title}
             <p>{card.content.title}</p>
           {/if}
-        {/each}
+          <div>
+            <button on:click="{handleCardMutations(card, "editCard", {"note": "Get this from user."})}">Edit Note</button>
+            <button on:click="{handleCardMutations(card, "editCard", {"switchArchive": true})}">Switch Archive</button>
+            <button on:click="{handleCardMutations(card, "deleteCard")}">Delete Card</button>
+            <button on:click="{handleCardMutations(card, "convertCardToIssue", {"title": "Converted from VSCode", "body": "This issue was converted from a Project card from VSCode"})}">Convert to Issue</button>
+          </div>
+          {/each}
       </div>
     {/each}
   </div>
