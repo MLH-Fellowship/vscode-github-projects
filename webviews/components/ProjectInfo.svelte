@@ -1,7 +1,7 @@
 <script>
   import { gql } from "@apollo/client";
   import { query } from "svelte-apollo";
-  import Columns from "./Columns.svelte";
+  import Board from "./Board.svelte"
 
   const GET_REPO_PROJECT_INFO = gql`
     query GetRepoProjectInfo($name: String!, $owner: String!, $number: Int!) {
@@ -12,6 +12,7 @@
           columns(first: 100) {
             nodes {
               name
+              id
               cards(first: 100) {
                 nodes {
                   content {
@@ -21,6 +22,7 @@
                   note
                   isArchived
                   state
+                  id
                 }
               }
             }
@@ -53,6 +55,7 @@
           columns(first: 100) {
             nodes {
               name
+              id
               cards(first: 100) {
                 nodes {
                   content {
@@ -62,6 +65,7 @@
                   note
                   isArchived
                   state
+                  id
                 }
               }
             }
@@ -95,14 +99,14 @@
             owner: owner,
             number: parseInt(number),
           },
-          pollInterval: 1800,
+          // pollInterval: 1800,
         })
       : query(GET_ORG_PROJECT_INFO, {
           variables: {
             login: login,
             number: parseInt(number),
           },
-          pollInterval: 1800,
+          // pollInterval: 1800,
         });
 
   let project;
@@ -115,18 +119,16 @@
         type === "repo"
           ? $projectInfo.data.repository.project
           : $projectInfo.data.organization.project;
-      console.log(project);
 
       if (project.columns) {
         columns = project.columns.nodes.map((column) => ({
           name: column.name,
           cards: column.cards ? column.cards.nodes : null,
+          id: column.id,
         }));
       }
     }
   }
-
-  
 </script>
 
 {#if $projectInfo.loading}
@@ -136,5 +138,5 @@
 {:else}
   <h1>{project.name}</h1>
   <h2>{project.body}</h2>
-  <Columns columns={columns}/>
+  <Board allColumns={columns} />
 {/if}
