@@ -52,12 +52,13 @@
         margin-right: 1rem;
         min-width: 15rem;
         overflow-y: hidden;
-        min-height: 5rem;"
+        min-height: 30rem;"
     >
       <h2>{column.name}</h2>
       <div
-        style="height: 100%
-      overflow-y: scroll"
+        style="height: 100%;
+      overflow-y: scroll;
+      min-height: 30rem;"
         use:dndzone={{ items: column.cards }}
         on:consider={(e) => handleConsiderCards(column.id, e)}
         on:finalize={(e) => handleFinalizeCards(column.id, e)}
