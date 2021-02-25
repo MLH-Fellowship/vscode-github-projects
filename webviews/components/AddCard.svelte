@@ -12,10 +12,13 @@
 </script>
 
 <div>
-  <form on:submit|preventDefault>
-    <input bind:value={text} />
-    <button on:click={closeAdd} type="submit">
+  <input bind:value={text} placeholder="Add a note" />
+  <div style="display: flex; flex-direction: row; width: 100%;">
+    <button on:click={closeAdd} style="width:50%; margin-right: 5px;">
       Confirm
     </button>
-  </form>
+    <button on:click={closeAdd} style="width:50%">
+      Cancel
+    </button>
+  </div>
 </div>

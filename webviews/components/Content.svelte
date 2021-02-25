@@ -9,4 +9,4 @@
   };
 </script>
 
-<p><button on:click={showSurprise}>Add Card</button></p>
+<p><button on:click={showSurprise} style="width: 100%; margin-top: 5px;">Add Card</button></p>

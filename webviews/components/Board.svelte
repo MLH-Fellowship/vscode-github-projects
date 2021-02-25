@@ -54,9 +54,9 @@
 </script>
 
 <div>
-  <div style="display: flex; flex-direction: row; justify-content: flex-end; margin: 10px;">
-    <button style="width: 20%; margin:5px;"> View in GitHub </button>
-    <button style="width: 20%; margin:5px;"> Close Project </button>
+  <div style="display: flex; flex-direction: row; justify-content: flex-start; margin:16px 0px;">
+    <button style="width: 20%; margin-right:8px;"> View in GitHub </button>
+    <button style="width: 20%;"> Close Project </button>
   </div>
   <div
     style="display: flex; flex-direction: row;"
