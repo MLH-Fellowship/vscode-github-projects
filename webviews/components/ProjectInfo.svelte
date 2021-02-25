@@ -1,4 +1,5 @@
 <script>
+  import Board from "./Board.svelte";
   import { mutation, query } from "svelte-apollo";
   import * as queries from "./queries.js";
 
@@ -25,16 +26,33 @@
   let project;
   let repoId;
 
+  let columns = [];
+
   $: {
     if ($projectInfo.data) {
+      console.log(projectInfo);
       project =
         type === "repo"
           ? $projectInfo.data.repository.project
           : $projectInfo.data.organization.project;
-      repoId = 
-        type === "repo"
-          ? $projectInfo.data.repository.id
-          : null
+
+      if (project.columns) {
+        columns = project.columns.nodes.map((column) => ({
+          name: column.name,
+          cards: column.cards ? column.cards.nodes : null,
+          id: column.id,
+        }));
+      }
+
+      repoId = type === "repo" ? $projectInfo.data.repository.id : null;
+    }
+  }
+
+  function handleMessage(event) {
+    if (event.detail.payload === "stopPoll") {
+      projectInfo.stopPolling();
+    } else if (event.detail.payload === "startPoll") {
+      projectInfo.startPolling(1800);
     }
   }
 
@@ -55,44 +73,68 @@
   const closeProject = mutation(queries.CLOSE_PROJECT);
   const editProject = mutation(queries.EDIT_PROJECT);
 
-
   async function handleCardMutations(card, request, payload) {
     try {
       switch (request) {
         case "addCard":
           // TODO: Use ContentID to link card to an Issue or a PR
-          addCard({ variables: { contentId: null, note: payload.note, projectColumnId: payload.column.id}});
+          addCard({
+            variables: {
+              contentId: null,
+              note: payload.note,
+              projectColumnId: payload.column.id,
+            },
+          });
           break;
 
         case "deleteCard":
-          deleteCard({ variables: { cardId: card.id }});
+          deleteCard({ variables: { cardId: card.id } });
           break;
 
         case "editCard":
           let isArchived = card.isArchived;
-          if(payload.switchArchive) {
+          if (payload.switchArchive) {
             isArchived = !isArchived;
           }
-          if(payload.override != undefined) {
+          if (payload.override != undefined) {
             isArchived = payload.override;
           }
-          editCard({ variables: { isArchived: isArchived, note: payload.note, projectCardId: card.id}});
+          editCard({
+            variables: {
+              isArchived: isArchived,
+              note: payload.note,
+              projectCardId: card.id,
+            },
+          });
           break;
 
         case "switchCardColumn":
           // TODO: This is untested, use payload to add a `toColumn` parameter
-          switchCardColumn({ variables: { afterCardId: null, cardId: card.id, columnId: payload.toColumn.id }});
+          switchCardColumn({
+            variables: {
+              afterCardId: null,
+              cardId: card.id,
+              columnId: payload.toColumn.id,
+            },
+          });
           break;
 
         case "convertCardToIssue":
-          if(!repoId) {
-            throw Error("Cannot convert non-repository cards to issues.");            
+          if (!repoId) {
+            throw Error("Cannot convert non-repository cards to issues.");
           }
           let title = null;
-          if(payload.title) { 
+          if (payload.title) {
             title = payload.title;
           }
-          convertCardToIssue({ variables: { body: payload.body, projectCardId: card.id, repositoryId: repoId, title: title}});
+          convertCardToIssue({
+            variables: {
+              body: payload.body,
+              projectCardId: card.id,
+              repositoryId: repoId,
+              title: title,
+            },
+          });
           break;
 
         default:
@@ -111,21 +153,25 @@
     try {
       switch (request) {
         case "addColumn":
-          addColumn({ variables: { name: payload.name, projectId: payload.project.id }});
+          addColumn({
+            variables: { name: payload.name, projectId: payload.project.id },
+          });
           break;
 
         case "deleteColumn":
-          deleteColumn({ variables: { columnId: column.id }});
+          deleteColumn({ variables: { columnId: column.id } });
           break;
 
         case "editColumn":
-          editColumn({ variables: { name: payload.name, projectColumnId: column.id }});
+          editColumn({
+            variables: { name: payload.name, projectColumnId: column.id },
+          });
           break;
 
         case "switchColumnArchive":
           overrideArchived = !overrideArchived;
-          column.cards.nodes.forEach(card => {
-            let archivePayload = {"override" : overrideArchived};
+          column.cards.nodes.forEach((card) => {
+            let archivePayload = { override: overrideArchived };
             handleCardMutations(card, "editCard", archivePayload);
           });
           break;
@@ -152,7 +198,7 @@
           break;
 
         case "editProject":
-          editProject(project, payload);          
+          editProject(project, payload);
           break;
 
         default:
@@ -171,35 +217,7 @@
 {:else if $projectInfo.error}
   Error: {$projectInfo.error.message}
 {:else}
-  <h2>{project.name}</h2>
+  <h1>{project.name}</h1>
   <h2>{project.body}</h2>
-  <div style="display: flex; flex-direction: row;">
-    <button style="width=20px" on:click="{handleColumnMutations(null, "addColumn", {"project": project, "name": "Get this from user."})}">Add Column</button>
-    {#each project.columns.nodes as column}
-      <div
-        style="border-style: solid; border-color: white; border-width: 1px; border-radius: 5px; display: flex; flex-direction: column; margin-right: 1rem"
-      >
-        <button on:click="{handleColumnMutations(column, "deleteColumn")}">Delete Column</button>
-        <button on:click="{handleColumnMutations(column, "switchColumnArchive")}">Switch Archive</button>
-        <button on:click="{handleColumnMutations(column, "editColumn", {"name": "Get this from user."})}">Edit Column</button>
-        <h2>{column.name}</h2>
-        <button on:click="{handleCardMutations(null, "addCard", {"column": column, "note": "Get this from user."})}">Add Card</button>
-        {#each column.cards.nodes as card}
-          {#if card.note && !card.isArchived}
-            <div>
-              <p>{card.note}</p>
-            </div>
-          {:else if card.content && card.content.title}
-            <p>{card.content.title}</p>
-          {/if}
-          <div>
-            <button on:click="{handleCardMutations(card, "editCard", {"note": "Get this from user."})}">Edit Note</button>
-            <button on:click="{handleCardMutations(card, "editCard", {"switchArchive": true})}">Switch Archive</button>
-            <button on:click="{handleCardMutations(card, "deleteCard")}">Delete Card</button>
-            <button on:click="{handleCardMutations(card, "convertCardToIssue", {"title": "Converted from VSCode", "body": "This issue was converted from a Project card from VSCode"})}">Convert to Issue</button>
-          </div>
-          {/each}
-      </div>
-    {/each}
-  </div>
+  <Board allColumns={columns} on:message={handleMessage} />
 {/if}

@@ -133,6 +133,7 @@ export const GET_ORG_PROJECT_INFO = gql`
                     ...fieldsIssue
                     ...fieldsPR
                   }
+                  id
                   note
                   isArchived
                   state
