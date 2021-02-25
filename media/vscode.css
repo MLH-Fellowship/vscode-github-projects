@@ -1,5 +1,5 @@
 :root {
-	--container-paddding: 20px;
+	--container-padding: 20px;
 	--input-padding-vertical: 6px;
 	--input-padding-horizontal: 4px;
 	--input-margin-vertical: 4px;
@@ -7,7 +7,7 @@
 }
 
 body {
-	padding: 0 var(--container-paddding);
+	padding: 0 var(--container-padding);
 	color: var(--vscode-foreground);
 	font-size: var(--vscode-font-size);
 	font-weight: var(--vscode-font-weight);
@@ -17,7 +17,7 @@ body {
 
 ol,
 ul {
-	padding-left: var(--container-paddding);
+	padding-left: var(--container-padding);
 }
 
 body > *,
@@ -88,4 +88,63 @@ textarea {
 input::placeholder,
 textarea::placeholder {
 	color: var(--vscode-input-placeholderForeground);
+}
+
+.labels {
+	border-radius: 5px;
+	outline: none;
+	color: black;
+}
+
+.checkBox {
+  background-repeat: round;
+  overflow: hidden;
+  resize: both;
+  position: relative;
+  min-width: 50px;
+  min-height: 50px;
+	font-weight: bolder;
+}
+
+.labels:before {
+	content: "";
+	position: absolute;
+	display: grid;
+	place-items: center;
+}
+
+span {
+	position: relative;
+	width: 100%;
+}
+
+.labels:hover {
+	color: rgb(255, 140, 87);
+}
+
+.labels:active {
+	outline: none;
+	font-size: 120%;
+}
+
+.seeProjectsButton {
+	border-radius: 5px !important;
+	background-repeat: round;
+  overflow: hidden;
+  resize: both;
+  position: relative;
+  min-width: 50px;
+  min-height: 50px;
+	font-weight: bolder;
+	background-color: rgb(136, 66, 136);
+}
+
+.seeProjectsButton:hover {
+	background-color: rgb(204, 204, 204);
+	color: rgb(255, 140, 87);
+}
+
+.seeProjectsButton:active {
+	background-color: rgb(255, 255, 255);
+	color: rgb(0, 0, 0);
 }
