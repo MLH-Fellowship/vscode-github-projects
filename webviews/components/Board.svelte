@@ -7,11 +7,8 @@
   let prevColumns = [];
   let filteredColumns = [];
 
-  $: console.log(allColumns);
-
   $: {
     if (prevColumns !== allColumns) {
-      console.log("hello");
       prevColumns = allColumns;
       filteredColumns = [];
       for (let column of allColumns) {
