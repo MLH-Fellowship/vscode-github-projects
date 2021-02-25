@@ -1,8 +1,7 @@
 <script>
-  import Board from "./Board.svelte"
+  import Board from "./Board.svelte";
   import { mutation, query } from "svelte-apollo";
   import * as queries from "./queries.js";
-
 
   export let type, name, owner, login, number;
 
@@ -31,6 +30,7 @@
 
   $: {
     if ($projectInfo.data) {
+      console.log(projectInfo);
       project =
         type === "repo"
           ? $projectInfo.data.repository.project
@@ -44,10 +44,15 @@
         }));
       }
 
-      repoId = 
-        type === "repo"
-          ? $projectInfo.data.repository.id
-          : null
+      repoId = type === "repo" ? $projectInfo.data.repository.id : null;
+    }
+  }
+
+  function handleMessage(event) {
+    if (event.detail.payload === "stopPoll") {
+      projectInfo.stopPolling();
+    } else if (event.detail.payload === "startPoll") {
+      projectInfo.startPolling(1800);
     }
   }
 
@@ -68,44 +73,68 @@
   const closeProject = mutation(queries.CLOSE_PROJECT);
   const editProject = mutation(queries.EDIT_PROJECT);
 
-
   async function handleCardMutations(card, request, payload) {
     try {
       switch (request) {
         case "addCard":
           // TODO: Use ContentID to link card to an Issue or a PR
-          addCard({ variables: { contentId: null, note: payload.note, projectColumnId: payload.column.id}});
+          addCard({
+            variables: {
+              contentId: null,
+              note: payload.note,
+              projectColumnId: payload.column.id,
+            },
+          });
           break;
 
         case "deleteCard":
-          deleteCard({ variables: { cardId: card.id }});
+          deleteCard({ variables: { cardId: card.id } });
           break;
 
         case "editCard":
           let isArchived = card.isArchived;
-          if(payload.switchArchive) {
+          if (payload.switchArchive) {
             isArchived = !isArchived;
           }
-          if(payload.override != undefined) {
+          if (payload.override != undefined) {
             isArchived = payload.override;
           }
-          editCard({ variables: { isArchived: isArchived, note: payload.note, projectCardId: card.id}});
+          editCard({
+            variables: {
+              isArchived: isArchived,
+              note: payload.note,
+              projectCardId: card.id,
+            },
+          });
           break;
 
         case "switchCardColumn":
           // TODO: This is untested, use payload to add a `toColumn` parameter
-          switchCardColumn({ variables: { afterCardId: null, cardId: card.id, columnId: payload.toColumn.id }});
+          switchCardColumn({
+            variables: {
+              afterCardId: null,
+              cardId: card.id,
+              columnId: payload.toColumn.id,
+            },
+          });
           break;
 
         case "convertCardToIssue":
-          if(!repoId) {
-            throw Error("Cannot convert non-repository cards to issues.");            
+          if (!repoId) {
+            throw Error("Cannot convert non-repository cards to issues.");
           }
           let title = null;
-          if(payload.title) { 
+          if (payload.title) {
             title = payload.title;
           }
-          convertCardToIssue({ variables: { body: payload.body, projectCardId: card.id, repositoryId: repoId, title: title}});
+          convertCardToIssue({
+            variables: {
+              body: payload.body,
+              projectCardId: card.id,
+              repositoryId: repoId,
+              title: title,
+            },
+          });
           break;
 
         default:
@@ -124,21 +153,25 @@
     try {
       switch (request) {
         case "addColumn":
-          addColumn({ variables: { name: payload.name, projectId: payload.project.id }});
+          addColumn({
+            variables: { name: payload.name, projectId: payload.project.id },
+          });
           break;
 
         case "deleteColumn":
-          deleteColumn({ variables: { columnId: column.id }});
+          deleteColumn({ variables: { columnId: column.id } });
           break;
 
         case "editColumn":
-          editColumn({ variables: { name: payload.name, projectColumnId: column.id }});
+          editColumn({
+            variables: { name: payload.name, projectColumnId: column.id },
+          });
           break;
 
         case "switchColumnArchive":
           overrideArchived = !overrideArchived;
-          column.cards.nodes.forEach(card => {
-            let archivePayload = {"override" : overrideArchived};
+          column.cards.nodes.forEach((card) => {
+            let archivePayload = { override: overrideArchived };
             handleCardMutations(card, "editCard", archivePayload);
           });
           break;
@@ -165,7 +198,7 @@
           break;
 
         case "editProject":
-          editProject(project, payload);          
+          editProject(project, payload);
           break;
 
         default:
@@ -186,5 +219,5 @@
 {:else}
   <h1>{project.name}</h1>
   <h2>{project.body}</h2>
-  <Board allColumns={columns} />
+  <Board allColumns={columns} on:message={handleMessage} />
 {/if}

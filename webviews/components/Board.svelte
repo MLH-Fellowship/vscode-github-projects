@@ -1,33 +1,50 @@
 <script>
   import Card from "./Card.svelte";
   import { dndzone } from "svelte-dnd-action";
+  import { createEventDispatcher } from 'svelte';
   export let allColumns;
 
   let filteredColumns = [];
 
-  for (let column of allColumns) {
-    console.log(column);
-    if (column.cards) {
-      column.cards = column.cards.filter((card) => !card.isArchived);
-      filteredColumns.push(column);
+  $: {
+    filteredColumns = [];
+    for (let column of allColumns) {
+      if (column.cards) {
+        column.cards = column.cards.filter((card) => !card.isArchived);
+        filteredColumns.push(column);
+      }
     }
   }
 
+  const dispatch = createEventDispatcher();
+
   function handleConsiderColumns(e) {
+    dispatch('message', {
+			payload: 'stopPoll'
+		});
     filteredColumns = e.detail.items;
   }
 
   function handleFinalizeColumns(e) {
+    dispatch('message', {
+			payload: 'startPoll'
+		});
     filteredColumns = e.detail.items;
   }
 
   function handleConsiderCards(colId, e) {
+    dispatch('message', {
+			payload: 'stopPoll'
+		});
     const colIndex = filteredColumns.findIndex((column) => column.id === colId);
     filteredColumns[colIndex].cards = e.detail.items;
     filteredColumns = [...filteredColumns];
   }
 
   function handleFinalizeCards(colId, e) {
+    dispatch('message', {
+			payload: 'startPoll'
+		});
     const colIndex = filteredColumns.findIndex((column) => column.id === colId);
     filteredColumns[colIndex].cards = e.detail.items;
     filteredColumns = [...filteredColumns];
