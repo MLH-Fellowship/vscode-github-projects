@@ -15,7 +15,7 @@
   <form on:submit|preventDefault>
     <input bind:value={text} />
     <button on:click={closeAdd} type="submit">
-      Add
+      Confirm
     </button>
   </form>
 </div>

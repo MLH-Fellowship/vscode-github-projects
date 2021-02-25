@@ -16,7 +16,7 @@
     <div>
       <p>{card.note}</p>
       <Modal>
-        <EditCard />
+        <EditCard note={card.note}/>
       </Modal>
     </div>
   {:else if card.content && card.content.title}
