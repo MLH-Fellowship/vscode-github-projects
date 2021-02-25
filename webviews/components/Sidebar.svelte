@@ -1,10 +1,14 @@
+<script context="module">
+  export const bar = 'initial value';
+</script>
+
 <script>
   $: session = null;
 
-  window.addEventListener("message", async (event) => {
+  window.addEventListener('message', async (event) => {
     const message = event.data;
     switch (message.command) {
-      case "authComplete":
+      case 'authComplete':
         session = message.payload.session;
     }
   });
@@ -16,19 +20,21 @@
     <button
       on:click={() => {
         //send message to SidebarProvider.ts
-        ext_vscode.postMessage({ type: "onSignIn", value: "success" });
+        ext_vscode.postMessage({ type: 'onSignIn', value: 'success' });
       }}
     >
       Sign in with GitHub
     </button>
   </div>
 {:else}
-  <button
-    on:click={() => {
-      //send message to SidebarProvider.ts
-      ext_vscode.postMessage({ type: "onSignIn", value: "success" });
-    }}
-  >
-    See Projects
-  </button>
+  <div>
+    <button
+      on:click={() => {
+        //send message to SidebarProvider.ts
+        ext_vscode.postMessage({ type: 'onSignIn', value: 'success' });
+      }}
+    >
+      See Projects
+    </button>
+  </div>
 {/if}

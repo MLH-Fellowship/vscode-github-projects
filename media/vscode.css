@@ -1,5 +1,5 @@
 :root {
-	--container-paddding: 20px;
+	--container-padding: 20px;
 	--input-padding-vertical: 6px;
 	--input-padding-horizontal: 4px;
 	--input-margin-vertical: 4px;
@@ -7,7 +7,7 @@
 }
 
 body {
-	padding: 0 var(--container-paddding);
+	padding: 0 var(--container-padding);
 	color: var(--vscode-foreground);
 	font-size: var(--vscode-font-size);
 	font-weight: var(--vscode-font-weight);
@@ -17,7 +17,7 @@ body {
 
 ol,
 ul {
-	padding-left: var(--container-paddding);
+	padding-left: var(--container-padding);
 }
 
 body > *,
@@ -88,4 +88,62 @@ textarea {
 input::placeholder,
 textarea::placeholder {
 	color: var(--vscode-input-placeholderForeground);
+}
+
+.dropDownButton {
+	border-radius: 5px;
+	outline: none;
+	background-color: rgb(228, 228, 228) !important;
+	color: black;
+	width: 20vw;
+  height: 1em;
+  background-size: 20px;
+  background-repeat: round;
+  overflow: hidden;
+  resize: both;
+  position: relative;
+  min-width: 150px;
+  min-height: 50px;
+	font-weight: bolder;
+}
+
+.dropDownButtonSecond {
+	border-radius: 5px;
+	outline: none;
+	background-color: rgb(240, 255, 240);
+	color: black;
+	font-weight: bolder;
+	width: 20vw;
+}
+
+.dropDownButtonSecond:hover {
+	color: rgb(255, 140, 87);
+	background-color: rgb(89, 0, 255);
+}
+
+.dropDownButton:before {
+	content: "";
+	position: absolute;
+	top: 20px;
+	left: 20px;
+	right: 20px;
+	bottom: 20px;
+	display: grid;
+	place-items: center;
+}
+
+span {
+	position: relative;
+	width: 100%;
+}
+
+.dropDownButton:hover {
+	color: rgb(255, 140, 87);
+	background-color: rgb(89, 0, 255) !important;
+}
+
+.dropDownButton:active, .dropDownButtonSecond:active {
+	background-color: white !important;
+	color: rgb(0, 0, 0);
+	font-size: 120%;
 }

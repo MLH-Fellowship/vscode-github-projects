@@ -7,6 +7,8 @@ import typescript from "@rollup/plugin-typescript";
 import path from "path";
 import fs from "fs";
 
+import replace from '@rollup/plugin-replace';
+
 const production = !process.env.ROLLUP_WATCH;
 
 export default fs
@@ -60,6 +62,11 @@ export default fs
         // If we're building for production (npm run build
         // instead of npm run dev), minify
         production && terser(),
+        replace({
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+          'process.env.NODE_ENV': JSON.stringify('production'),
+          include: '**/node_modules/**',
+        })
       ],
       watch: {
         clearScreen: false,

@@ -1,7 +1,18 @@
 <script>
-  import { gql } from "@apollo/client";
-  import { query } from "svelte-apollo";
-  import { createEventDispatcher } from "svelte";
+  import { gql } from '@apollo/client';
+  import { query } from 'svelte-apollo';
+  import { createEventDispatcher, onMount } from 'svelte';
+
+  import Dropdown from 'sv-bootstrap-dropdown';
+  let dropdownTrigger;
+
+  import { bar } from './Sidebar.svelte';
+
+  onMount(function () {
+    console.log(bar);
+  });
+
+  let filterValue = 'initial value';
 
   const dispatch = createEventDispatcher();
 
@@ -52,18 +63,18 @@
   let containers = [];
 
   $: {
-    // console.log($containersInfo);
+    // console.log('containers info is ', $containersInfo);
     if ($containersInfo.data) {
       if ($containersInfo.data.viewer.organizations) {
         for (let organization of $containersInfo.data.viewer.organizations
           .nodes) {
-          let newOrg = addType(organization, "org");
+          let newOrg = addType(organization, 'org');
           containers = [...containers, newOrg];
         }
       }
       if ($containersInfo.data.viewer.repositories) {
         for (let repo of $containersInfo.data.viewer.repositories.nodes) {
-          let newRepo = addType(repo, "repo");
+          let newRepo = addType(repo, 'repo');
           containers = [...containers, newRepo];
           // console.log(newRepo);
         }
@@ -72,7 +83,7 @@
   }
 
   function handleSelectProject(container, project) {
-    dispatch("message", {
+    dispatch('message', {
       container: container,
       project: project,
     });
@@ -91,11 +102,55 @@
 {:else if $containersInfo.error}
   Error: {$containersInfo.error.message}
 {:else}
-  {#each containers as container}
+  <Dropdown triggerElement={dropdownTrigger}>
+    <button type="button" class="dropDownButton" bind:this={dropdownTrigger}>
+      <span>Dropdown</span>
+    </button>
+    <div slot="DropdownMenu">
+      <span>
+        <button
+          on:click={() => {
+            filterValue = 'Repository';
+          }}
+          class="dropDownButtonSecond">Repository</button
+        >
+      </span>
+      <span>
+        <button
+          on:click={() => {
+            filterValue = 'Organization';
+          }}
+          class="dropDownButtonSecond">Organization</button
+        >
+      </span>
+      <span>
+        <button
+          on:click={() => {
+            filterValue = 'projectOpen';
+          }}
+          class="dropDownButtonSecond">Open Projects</button
+        >
+      </span>
+      <span>
+        <button
+          on:click={() => {
+            filterValue = 'projectClosed';
+          }}
+          class="dropDownButtonSecond">Closed Projects</button
+        >
+      </span>
+    </div>
+  </Dropdown>
+  {#each containers.filter((c) => c.__typename == filterValue || filterValue == 'projectOpen' || filterValue == 'projectClosed' || filterValue == 'initial value') as container}
     <h3>{container.name}</h3>
     {#if container.projects}
       {#each container.projects.nodes as project}
-        {#if !project.closed}
+        {#if (filterValue == 'initial value' || filterValue == 'projectOpen') && !project.closed}
+          <button on:click={handleSelectProject(container, project)}
+            >{project.name}</button
+          >
+        {/if}
+        {#if filterValue == 'projectClosed' && project.closed}
           <button on:click={handleSelectProject(container, project)}
             >{project.name}</button
           >
