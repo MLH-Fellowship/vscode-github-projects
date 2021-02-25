@@ -226,7 +226,7 @@ export const GET_ORG_PROJECT_INFO = gql`
 
 export const GET_USER_PROJECT_INFO = gql`
   query GetUserProjectInfo($login: String!, $number: Int!) {
-    organization(login: $login) {
+    viewer {
       project(number: $number) {
         id
         name
@@ -248,6 +248,30 @@ export const GET_USER_PROJECT_INFO = gql`
               }
             }
           }
+        }
+      }
+    }
+  }
+`;
+
+export const GET_REPO_COLLABORATORS = gql`
+  query GetRepoCollaborators($name: String!, $owner: String!) {
+    repository(name: $name, owner: $owner) {
+      collaborators(affiliation: ALL) {
+        nodes {
+          name
+        }
+      }
+    }
+  }
+`;
+
+export const GET_ORG_MEMBERS = gql`
+  query GetRepoMembers($login: String!) {
+    organization(login: $login) {
+      membersWithRole(first: 100) {
+        nodes {
+          name
         }
       }
     }
