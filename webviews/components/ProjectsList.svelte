@@ -10,6 +10,7 @@
       viewer {
         organizations(first: 100) {
           nodes {
+            id
             name
             login
             projects(first: 100) {
@@ -27,6 +28,7 @@
           first: 100
         ) {
           nodes {
+            id
             name
             owner {
               login

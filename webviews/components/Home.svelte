@@ -39,7 +39,8 @@
 </script>
 
 {#if !client}
-  <p>Loading</p>
+  <!-- When webview is reloaded, client is not defined. -->
+  <p>Client is not set, Sign In with GitHub first.</p>
 {:else if !selectedProject}
   <ProjectsList on:message={handleMessage} />
 {:else if selectedContainer.type === "repo"}
