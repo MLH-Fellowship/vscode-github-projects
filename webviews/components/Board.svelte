@@ -2,6 +2,8 @@
   import Card from "./Card.svelte";
   import { dndzone } from "svelte-dnd-action";
   import { createEventDispatcher } from 'svelte';
+  import Modal from 'svelte-simple-modal';
+  import Content from './Content.svelte';
   export let allColumns;
 
   let filteredColumns = [];
@@ -51,42 +53,51 @@
   }
 </script>
 
-<div
-  style="display: flex; flex-direction: row;"
-  use:dndzone={{ items: filteredColumns, type: "columns" }}
-  on:consider={handleConsiderColumns}
-  on:finalize={handleFinalizeColumns}
->
-  {#each filteredColumns as column (column.id)}
-    <div
-      style="border-style: solid;
-        border-color: white;
-        border-width: 1px;
-        border-radius: 5px;
-        display: flex;
-        flex-direction: column;
-        padding: 1rem 1rem 1rem 1rem;
-        margin-right: 1rem;
-        min-width: 20rem;
-        overflow-y: hidden;
-        min-height: 30rem;
-        max-height: 100%"
-    >
-      <h2>{column.name}</h2>
+<div>
+  <div style="display: flex; flex-direction: row; justify-content: flex-end; margin: 10px;">
+    <button style="width: 20%; margin:5px;"> View in GitHub </button>
+    <button style="width: 20%; margin:5px;"> Close Project </button>
+  </div>
+  <div
+    style="display: flex; flex-direction: row;"
+    use:dndzone={{ items: filteredColumns, type: "columns" }}
+    on:consider={handleConsiderColumns}
+    on:finalize={handleFinalizeColumns}
+  >
+    {#each filteredColumns as column (column.id)}
       <div
-        style="height: 100%;
-      overflow-y: scroll;
-      min-height: 30rem;"
-        use:dndzone={{ items: column.cards }}
-        on:consider={(e) => handleConsiderCards(column.id, e)}
-        on:finalize={(e) => handleFinalizeCards(column.id, e)}
+        style="border-style: solid;
+          border-color: white;
+          border-width: 1px;
+          border-radius: 5px;
+          display: flex;
+          flex-direction: column;
+          padding: 1rem 1rem 1rem 1rem;
+          margin-right: 1rem;
+          min-width: 20rem;
+          overflow-y: hidden;
+          min-height: 30rem;
+          max-height: 100%"
       >
-        {#if column.cards}
-          {#each column.cards as card (card.id)}
-            <Card {card} />
-          {/each}
-        {/if}
+        <h2>{column.name}</h2>
+        <div
+          style="height: 100%;
+        overflow-y: scroll;
+        min-height: 30rem;"
+          use:dndzone={{ items: column.cards }}
+          on:consider={(e) => handleConsiderCards(column.id, e)}
+          on:finalize={(e) => handleFinalizeCards(column.id, e)}
+        >
+          {#if column.cards}
+            {#each column.cards as card (card.id)}
+              <Card {card} />
+            {/each}
+          {/if}
+        </div>
+        <Modal>
+          <Content />
+        </Modal>
       </div>
-    </div>
-  {/each}
+    {/each}
+  </div>
 </div>
