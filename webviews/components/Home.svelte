@@ -56,4 +56,6 @@
     login={selectedContainer.login}
     number={selectedProject.number}
   />
+{:else if selectedContainer.type === "user"}
+  <ProjectInfo type="user" number={selectedProject.number} />
 {/if}
