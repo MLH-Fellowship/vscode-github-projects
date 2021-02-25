@@ -37,7 +37,7 @@
 
   $: {
     if ($projectInfo.data) {
-      console.log(projectInfo);
+      console.log($projectInfo);
       project =
         type === "repo"
           ? $projectInfo.data.repository.project
@@ -57,8 +57,10 @@
 
   function handleMessage(event) {
     if (event.detail.payload === "stopPoll") {
+      console.log('stop polling');
       projectInfo.stopPolling();
     } else if (event.detail.payload === "startPoll") {
+      console.log('start polling');
       projectInfo.startPolling(1800);
     }
   }
