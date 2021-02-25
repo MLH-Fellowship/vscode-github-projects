@@ -50,9 +50,10 @@
         flex-direction: column;
         padding: 1rem 1rem 1rem 1rem;
         margin-right: 1rem;
-        min-width: 15rem;
+        min-width: 20rem;
         overflow-y: hidden;
-        min-height: 30rem;"
+        min-height: 30rem;
+        max-height: 100%"
     >
       <h2>{column.name}</h2>
       <div
