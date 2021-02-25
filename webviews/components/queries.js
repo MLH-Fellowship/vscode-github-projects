@@ -175,6 +175,12 @@ export const GET_REPO_PROJECT_INFO = gql`
         }
       }
     }
+    rateLimit {
+      limit
+      cost
+      remaining
+      resetAt
+    }
   }
 
   fragment fieldsIssue on Issue {
@@ -213,12 +219,16 @@ export const GET_ORG_PROJECT_INFO = gql`
         }
       }
     }
+    rateLimit {
+      limit
+      cost
+      remaining
+      resetAt
+    }
   }
-
   fragment fieldsIssue on Issue {
     title
   }
-
   fragment fieldsPR on PullRequest {
     title
   }
@@ -251,6 +261,18 @@ export const GET_USER_PROJECT_INFO = gql`
         }
       }
     }
+    rateLimit {
+      limit
+      cost
+      remaining
+      resetAt
+    }
+  }
+  fragment fieldsIssue on Issue {
+    title
+  }
+  fragment fieldsPR on PullRequest {
+    title
   }
 `;
 
