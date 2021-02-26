@@ -1,5 +1,7 @@
 <script>
+  export let card_info;
   const deleteCard = () => {
+    console.log(card_info);
     //add mutation for deleting card
   };
 

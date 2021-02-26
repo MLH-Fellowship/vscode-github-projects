@@ -3,7 +3,7 @@
   import { dndzone } from "svelte-dnd-action";
   import { createEventDispatcher } from "svelte";
   import Modal from "svelte-simple-modal";
-  import Content from "./Content.svelte";
+  import AddCardContent from "./AddCardContent.svelte";
   import AddCol from "./AddCol.svelte";
 
   export let allColumns;
@@ -103,6 +103,7 @@
         overflow-y: hidden;
         min-height: 30rem;
         max-height: 100%;
+        min-width: 20rem;
         width:25%;"
       >
         <h2>{column.name}</h2>
@@ -121,7 +122,7 @@
           {/if}
         </div>
         <Modal>
-          <Content />
+          <AddCardContent />
         </Modal>
       </div>
     {/each}

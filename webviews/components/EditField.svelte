@@ -2,10 +2,11 @@
   import { getContext } from 'svelte';
   export let message;
   const { close } = getContext('simple-modal');
-  let text = message;
+  let text = message.note;
 
   const closeAdd = () => {
-    console.log(text);
+    console.log(message.card_info);
+    //message.card_info is the card
     //add mutations for editing card
     close();
   };

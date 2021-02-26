@@ -5,8 +5,10 @@
   let body = ""
 
   const convertIssue = () => {
-    //body is issue body and message is title
+    //body is issue body and message.note is title
+    //message.card_info is the card
     //add mutations for converting to issue
+    console.log(message.card_info);
     close();
   };
 </script>
