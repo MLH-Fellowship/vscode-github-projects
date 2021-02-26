@@ -17,16 +17,24 @@
     <div>
       <p>{card.note}</p>
       <Modal>
-        <EditCard note={card.note} on:message/>
+        <EditCard note={card.note} on:message />
       </Modal>
     </div>
   {:else if card.content && card.content.title}
-    <div style="display: flex; flex-direction: row; width: 100%; justify-content: space-between;">
+    <div
+      style="display: flex; flex-direction: row; width: 100%; justify-content: space-between;"
+    >
       <p>{card.content.title}</p>
-      <p style= "height: 5%; border-style: solid; border-radius: 5px; padding:0 5px 0 5px;"><a style="text-decoration: none" href={card.content.url}>{card.content.__typename}</a></p>
+      <p
+        style="height: 5%; border-style: solid; border-radius: 5px; padding:0 5px 0 5px; border-width: 1px margin-left: 0.2rem"
+      >
+        <a style="text-decoration: none" href={card.content.url}
+          >{card.content.__typename}</a
+        >
+      </p>
     </div>
     <Modal>
-      <IssueCard note={card.content.title} on:message/>
+      <IssueCard note={card.content.title} on:message />
     </Modal>
   {/if}
 </div>
