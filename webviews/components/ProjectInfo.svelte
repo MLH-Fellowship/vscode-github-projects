@@ -250,12 +250,22 @@
     <div
       style="display: flex; flex-direction: row; justify-content: flex-start; margin:16px 0px;"
     >
+    <a href={project.url}>
       <button style="min-width: 7rem; margin-right:8px;">
         View in GitHub
       </button>
+    </a>
       <button style="min-width: 7rem;"> Close Project </button>
     </div>
   </div>
 
-  <Board allColumns={columns} handlers={{"cardMutations": handleCardMutations, "columnMutations": handleColumnMutations, "projectMutations": handleProjectMutations}} on:message={handleMessage} />
+  <Board
+    allColumns={columns}
+    handlers={{
+      cardMutations: handleCardMutations,
+      columnMutations: handleColumnMutations,
+      projectMutations: handleProjectMutations,
+    }}
+    on:message={handleMessage}
+  />
 {/if}
