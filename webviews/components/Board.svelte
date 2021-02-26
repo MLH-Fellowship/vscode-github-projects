@@ -61,6 +61,19 @@
 
     const colIndex = filteredColumns.findIndex((column) => column.id === colId);
 
+    let new_card = filteredColumns[colIndex].cards.filter(x => !e.detail.items.includes(x))[0]
+    let afterCardId = null;
+    if (new_card) {
+      e.detail.items.forEach((element, index) => {
+        if (element.id === new_card.id) {
+          if(index > 0) {
+            afterCardId = e.detail.items[index - 1].id;
+          }
+        }
+      });
+      handlers.cardMutations(new_card, "switchCardColumn", { afterCardId: afterCardId, colId: colId });
+    }
+
     filteredColumns[colIndex].cards = e.detail.items;
     filteredColumns = [...filteredColumns];
   }
@@ -87,7 +100,8 @@
     use:dndzone={{
       items: filteredColumns,
       type: "columns",
-      dragDisabled: !draggable,
+      // TODO: Enable dragging feature when implemented.
+      dragDisabled: true,
     }}
     on:consider={handleConsiderColumns}
     on:finalize={handleFinalizeColumns}
