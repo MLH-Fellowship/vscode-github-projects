@@ -246,8 +246,8 @@
     <div
       style="display: flex; flex-direction: row; justify-content: flex-start; margin:16px 0px;"
     >
-      <button style="min-width: 5rem; margin-right:8px;"> View in GitHub </button>
-      <button style="min-width: 5rem;"> Close Project </button>
+      <button style="min-width: 7rem; margin-right:8px;"> View in GitHub </button>
+      <button style="min-width: 7rem;"> Close Project </button>
     </div>
   </div>
 
