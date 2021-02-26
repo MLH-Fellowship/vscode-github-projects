@@ -1,4 +1,8 @@
 <script>
+  import Collaborators from "./Collaborators.svelte";
+  import { ApolloClient, InMemoryCache } from "@apollo/client";
+  import { setClient } from "svelte-apollo";
+
   let filterInclude = ["Repository"];
 
   $: ext_vscode.postMessage({ type: "onChangeFilter", value: filterInclude });
@@ -20,6 +24,7 @@
   $: session = null;
 
   let project;
+  let container;
 
   window.addEventListener("message", async (event) => {
     const message = event.data;
@@ -30,11 +35,27 @@
         break;
       case "projectChosen":
         project = message.payload.project;
+        container = message.payload.container;
         break;
     }
   });
   // send message as soon as sidebar loads.
   ext_vscode.postMessage({ type: "onSignIn", value: "success" });
+
+  let client;
+
+  $: {
+    if (session) {
+      client = new ApolloClient({
+        uri: "https://api.github.com/graphql",
+        cache: new InMemoryCache(),
+        headers: {
+          authorization: `Bearer ${session.accessToken}`,
+        },
+      });
+      setClient(client);
+    }
+  }
 </script>
 
 {#if !session}
@@ -78,8 +99,6 @@
 {:else}
   <h3>Project</h3>
   <h4>{project.name}</h4>
-  <h3>Collaborators</h3>
-  <h4>WIP</h4>
-  <h4>WIP</h4>
-  <h4>WIP</h4>
+  <h3>Collaborators/Members</h3>
+  <Collaborators {project} {container} />
 {/if}
