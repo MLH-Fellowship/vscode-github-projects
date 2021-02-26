@@ -10,6 +10,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
   credentials: Credentials;
 
   public static currentView: vscode.WebviewView | undefined;
+  public static session: any;
 
   constructor(
     private readonly _extensionUri: vscode.Uri,
@@ -44,6 +45,8 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
           const session = await this.credentials.getSession();
 
           if (session) {
+            SidebarProvider.session = session;
+            
             if (data.value !== "noNotification") {
               vscode.window.showInformationMessage(
                 "Signed In as: '" + session.account.label + "'"

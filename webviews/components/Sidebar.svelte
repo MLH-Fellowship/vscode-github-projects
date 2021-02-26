@@ -99,7 +99,7 @@
 {:else}
   <h2>Project</h2>
   <h4>{project.name}</h4>
-  <div style="height: 1.5rem;"/>
+  <div style="height: 1.5rem;" />
   <h2>Collaborators/Members</h2>
   <Collaborators {project} {container} />
 {/if}

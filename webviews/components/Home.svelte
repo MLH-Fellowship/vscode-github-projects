@@ -1,5 +1,6 @@
 <script>
   import { ApolloClient, InMemoryCache } from "@apollo/client";
+
   import { setClient } from "svelte-apollo";
   import ProjectsList from "./ProjectsList.svelte";
   import ProjectInfo from "./ProjectInfo.svelte";
@@ -12,12 +13,13 @@
     const message = event.data;
     switch (message.command) {
       case "authComplete":
-        console.log(message.payload.session);
         session = message.payload.session;
         break;
       case "changeFilters":
-        console.log(message.payload.filters);
         filters = message.payload.filters;
+        break;
+      case "returnSession":
+        session = message.payload.session;
         break;
     }
   });
@@ -25,6 +27,11 @@
   let client;
 
   $: {
+    if (!session) {
+      ext_vscode.postMessage({
+        type: "getSession",
+      });
+    }
     if (session) {
       client = new ApolloClient({
         uri: "https://api.github.com/graphql",
