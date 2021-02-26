@@ -52,11 +52,22 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
             });
 
             if (this.ext_uri) {
-              HomePanel.createOrShow(this.ext_uri, {session: session}); //create a Homepanel window on sign in
+              HomePanel.createOrShow(this.ext_uri, { session: session }); //create a Homepanel window on sign in
             }
           } else {
-            vscode.window.showErrorMessage("Could not authenticate with GitHub, please try again.");
+            vscode.window.showErrorMessage(
+              "Could not authenticate with GitHub, please try again."
+            );
           }
+
+          break;
+        }
+        case "onChangeFilter": {
+          if (!data.value) {
+            return;
+          }
+          console.log(data.value);
+          HomePanel.updateFilters(data.value);
 
           break;
         }

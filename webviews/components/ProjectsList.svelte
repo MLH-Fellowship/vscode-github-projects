@@ -9,25 +9,37 @@
     pollInterval: 5000,
   });
 
+  export let filters = [];
+
   let containers = [];
 
   $: {
+    console.log("filters");
+    console.log(filters);
     if ($containersInfo.data) {
-      if ($containersInfo.data.viewer.organizations) {
+      if (
+        $containersInfo.data.viewer.organizations &&
+        filters.includes("Organization")
+      ) {
         for (let organization of $containersInfo.data.viewer.organizations
           .nodes) {
           let newOrg = addType(organization, "org");
           containers = [...containers, newOrg];
         }
       }
-      if ($containersInfo.data.viewer.repositories) {
+      if (
+        $containersInfo.data.viewer.repositories &&
+        filters.includes("Repository")
+      ) {
         for (let repo of $containersInfo.data.viewer.repositories.nodes) {
           let newRepo = addType(repo, "repo");
           containers = [...containers, newRepo];
         }
       }
-      let newUser = addType($containersInfo.data.viewer, "user");
-      containers = [...containers, newUser];
+      if (filters.includes("Personal Profile")) {
+        let newUser = addType($containersInfo.data.viewer, "user");
+        containers = [...containers, newUser];
+      }
     }
   }
 
@@ -52,10 +64,10 @@
   Error: {$containersInfo.error.message}
 {:else}
   {#each containers as container}
-    <h3>{container.name}</h3>
     {#if container.projects}
       {#each container.projects.nodes as project}
-        {#if !project.closed}
+        {#if filters.includes("Include Closed Projects") || !project.closed}
+          <h3>{container.name}</h3>
           <button on:click={handleSelectProject(container, project)}
             >{project.name}</button
           >

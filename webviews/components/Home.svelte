@@ -6,16 +6,28 @@
 
   let session;
 
+  let filters = ["Repository"];
+
   window.addEventListener("message", async (event) => {
+    console.log("session");
+    console.log(session);
+    console.log(event.data);
     const message = event.data;
     switch (message.command) {
       case "authComplete":
         console.log(message.payload.session);
         session = message.payload.session;
+        break;
+      case "changeFilters":
+        console.log(message.payload.filters);
+        filters = message.payload.filters;
+        break;
     }
+    console.log(session);
   });
 
   let client;
+
   $: {
     if (session) {
       client = new ApolloClient({
@@ -42,7 +54,7 @@
   <!-- When webview is reloaded, client is not defined. -->
   <p>Client is not set, Sign In with GitHub first.</p>
 {:else if !selectedProject}
-  <ProjectsList on:message={handleMessage} />
+  <ProjectsList on:message={handleMessage} {filters} />
 {:else if selectedContainer.type === "repo"}
   <ProjectInfo
     type="repo"

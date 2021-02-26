@@ -57,6 +57,23 @@ export class HomePanel {
     });
   }
 
+  public static updateFilters(filters: any) {
+    const column = vscode.window.activeTextEditor
+      ? vscode.window.activeTextEditor.viewColumn
+      : undefined;
+
+    if (HomePanel.currentPanel) {
+      HomePanel.currentPanel._panel.reveal(column);
+
+      HomePanel.currentPanel._panel.webview.postMessage({
+        command: "changeFilters",
+        payload: { filters: filters },
+      });
+
+      return;
+    }
+  }
+
   public static kill() {
     HomePanel.currentPanel?.dispose();
     HomePanel.currentPanel = undefined;

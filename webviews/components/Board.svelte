@@ -80,9 +80,9 @@
   <button style="width: 20%; margin-right:8px;"> View in GitHub </button>
   <button style="width: 20%;"> Close Project </button>
 </div>
-<div style="display: flex; flex-direction: row;">
+<div style="display: flex; flex-direction: row; overflow-x:scroll;">
   <div
-    style="overflow-x: scroll;"
+    style="display: flex; flex-direction: row;"
     use:dndzone={{
       items: filteredColumns,
       type: "columns",
