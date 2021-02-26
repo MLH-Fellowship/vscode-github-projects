@@ -64,11 +64,18 @@
     filteredColumns = [...filteredColumns];
   }
 
+  let cardsOpen = 0;
+
   function handleMessage(event) {
     if (event.detail.payload === "stopDrag") {
-      draggable = false;
+      cardsOpen--;
     } else if (event.detail.payload === "startDrag") {
+      cardsOpen++;
+    }
+    if (cardsOpen == 0) {
       draggable = true;
+    } else {
+      draggable = false;
     }
   }
 </script>
