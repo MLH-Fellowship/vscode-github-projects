@@ -3,26 +3,25 @@ A VS Code extension that brings GitHub's projects into VS Code.
 
 ## Features
 
-Instead of having a separate Kanban board where you can collaborate on projects but cannot directly translate this to a GitHub Projects board, we decided to create an extension which allows users to fetch repository, organization, and open/closed project data from GitHub Projects and edit them within VS Code (delete/modify/add new).  
+Rather than having a separate Kanban board for collaborating on projects separately from GithHub Projects, we created an extension which allows users to fetch repository, organization, and project data from GitHub Projects - this can be edited within VS Code.  
 
-### Feature 1: Sidebar with Checkboxes to filter between Personal Profile, Repository, Organization, and Including Closed Projects
-- Once the user is logged in with GitHub, they can select any combination of the above four options
-- This will pass down the filter criteria to the Webview component which renders all the GitHub projects.
+### Feature 1: Sidebar with Checkboxes
+- When the user logs in with GitHub, they can select any combination of four options - Personal Profile, Repository, Organization, and can additionally opt to include closed projects.  
+- This will pass down the filter criteria to the Projects List Webview which renders all the GitHub projects.
 
 ### Feature 2: Navigation
-- Repositories are organized under each header which represents an organization.  
-- Can click on repository to view more information.  
+- Each organization has its own header
+- We can click on the repository to view more information.  
 
 ### Feature 3: Project Info View
-- Each project info view has a back button for easier navigation. 
-- We can also view the project on GitHub. 
-- Our extension allows us to more easily close the project than on the actual GitHub projects page. 
+- Once we click on a project, we reach the project info view, which has a back button for easier navigation, a link to the GitHub repository, and a Close Project button.  
+- We also display each project column (e.g. needs work, in progress, done).  
 
 ### Feature 4: Display each column, and easily delete and archive cards. 
-- If we click on `Issue` we will be taken to the corresponding issue on GitHub.  
+- The `Issue` button links us to the GitHub issue website.  
 
 ### Feature 5: Add a new column
-- Can add new column by name, with confirmation/cancel feature. 
+- The `Add a column` button allows us to add a new column by name, with a confirm/cancel feature.  
 
 ## Built with:
 - TypeScript
@@ -55,10 +54,8 @@ Open a new issue in our extension!  As long as you're in MLH you can make new is
 
 ### 1.0.0
 
-Initial release. using generator code (npm install -g yo generator-code) I created a new extension in TypeScript.  We decided to use the Webview API because it allows our extension view to be fully customizable.  Webview run in isolated contexts that cannot directly access local resources, so we used GQL to query GitHub.  
+Initial release:  Using generator code (npm install -g yo generator-code) I created a new extension in TypeScript.  We decided to use the Webview API because it allows our extension view to be fully customizable.  Webviews run in isolated contexts that cannot directly access local resources, so we used GQL to query GitHub.  
 
-We're using various lifecycle methods such as updateFilters, kill, revive, dispose, update, and finally we compile our HTML for the webview which is based on TypeScript components.  Using Svelte and Apollo to share our GitHub repository information with our WebView panel, 
-
-We aimed to create an app which would bring GitHub projects to life in a VS Code-themed way, including Rollup in order to generate an out/compiled folder which is what bundles our project into JavaScript.  
+We're using various lifecycle methods such as updateFilters, kill, revive, dispose, update, and finally we compile our HTML for the webview which is based on TypeScript components.  Using Svelte and Apollo to share our GitHub repository information with our WebView panel, we aimed to create an app which would bring GitHub projects to life in a VS Code-themed way, including Rollup in order to generate an out/compiled folder which is what bundles our project into JavaScript.  
 
 -----------------------------------------------------------------------------------------------------------
