@@ -1,5 +1,6 @@
 import * as vscode from "vscode";
 import { getNonce } from "./getNonce";
+import { SidebarProvider } from "./SidebarProvider";
 
 export class HomePanel {
   /**
@@ -22,7 +23,6 @@ export class HomePanel {
     // If we already have a panel, show it.
     if (HomePanel.currentPanel) {
       HomePanel.currentPanel._panel.reveal(column);
-      HomePanel.currentPanel._update();
 
       HomePanel.currentPanel._panel.webview.postMessage({
         command: "authComplete",
@@ -50,6 +50,8 @@ export class HomePanel {
     );
 
     HomePanel.currentPanel = new HomePanel(panel, extensionUri);
+    HomePanel.currentPanel._panel.reveal(column);
+    HomePanel.currentPanel._update();
 
     HomePanel.currentPanel._panel.webview.postMessage({
       command: "authComplete",
@@ -135,6 +137,14 @@ export class HomePanel {
           vscode.window.showInformationMessage(data.value);
           break;
         }
+        case "onChooseProject": {
+          if (!data.value) {
+            return;
+          }
+          console.log("chosen");
+          SidebarProvider.chooseProject(data.value);
+          break;
+        }
         case "onError": {
           if (!data.value) {
             return;
@@ -184,7 +194,7 @@ export class HomePanel {
       <link href="${stylesResetUri}" rel="stylesheet">
       <link href="${stylesMainUri}" rel="stylesheet">
       <script nonce="${nonce}">
-        
+      const ext_vscode = acquireVsCodeApi();
       </script>
     </head>
     <body>

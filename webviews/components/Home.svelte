@@ -43,6 +43,10 @@
   function handleMessage(event) {
     selectedContainer = event.detail.container;
     selectedProject = event.detail.project;
+    ext_vscode.postMessage({
+      type: "onChooseProject",
+      value: selectedProject,
+    });
   }
 </script>
 

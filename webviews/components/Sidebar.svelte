@@ -1,10 +1,7 @@
 <script>
   let filterInclude = ["Repository"];
 
-  $: {
-    console.log(filterInclude);
-    ext_vscode.postMessage({ type: "onChangeFilter", value: filterInclude });
-  }
+  $: ext_vscode.postMessage({ type: "onChangeFilter", value: filterInclude });
 
   let menu = [
     "Personal Profile",
@@ -22,11 +19,19 @@
 
   $: session = null;
 
+  let project;
+
   window.addEventListener("message", async (event) => {
     const message = event.data;
     switch (message.command) {
       case "authComplete":
         session = message.payload.session;
+        break;
+      case "projectChosen":
+        project = message.payload.project;
+        console.log('project');
+        console.log(project);
+        break;
     }
   });
   // send message as soon as sidebar loads.
@@ -45,7 +50,7 @@
       Sign in with GitHub
     </button>
   </div>
-{:else}
+{:else if !project}
   <div>
     <!-- <button
       on:click={() => {
@@ -69,4 +74,11 @@
       </label>
     {/each}
   </div>
+{:else}
+  <h3>Project</h3>
+  <h4>{project.name}</h4>
+  <h3>Collaborators</h3>
+  <h4>WIP</h4>
+  <h4>WIP</h4>
+  <h4>WIP</h4>
 {/if}

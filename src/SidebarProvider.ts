@@ -9,6 +9,8 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
   ext_uri?: vscode.Uri;
   credentials: Credentials;
 
+  public static currentView: vscode.WebviewView | undefined;
+
   constructor(
     private readonly _extensionUri: vscode.Uri,
     currentContext: vscode.ExtensionContext
@@ -20,6 +22,8 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 
   public resolveWebviewView(webviewView: vscode.WebviewView) {
     this._view = webviewView;
+
+    SidebarProvider.currentView = webviewView;
 
     webviewView.webview.options = {
       // Allow scripts in the webview
@@ -66,9 +70,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
           if (!data.value) {
             return;
           }
-          console.log(data.value);
           HomePanel.updateFilters(data.value);
-
           break;
         }
         case "onInfo": {
@@ -87,6 +89,16 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
         }
       }
     });
+  }
+
+  public static chooseProject(project: any | null) {
+    if (SidebarProvider.currentView) {
+      console.log("post");
+      SidebarProvider.currentView.webview.postMessage({
+        command: "projectChosen",
+        payload: { project: project },
+      });
+    }
   }
 
   public revive(panel: vscode.WebviewView) {
