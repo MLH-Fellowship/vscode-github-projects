@@ -138,10 +138,6 @@ export class HomePanel {
           break;
         }
         case "onChooseProject": {
-          if (!data.value) {
-            return;
-          }
-          console.log("chosen");
           SidebarProvider.chooseProject(data.value);
           break;
         }

@@ -65,7 +65,6 @@
   }
 
   function handleMessage(event) {
-    console.log(event);
     if (event.detail.payload === "stopDrag") {
       draggable = false;
     } else if (event.detail.payload === "startDrag") {

@@ -23,14 +23,13 @@
 
   window.addEventListener("message", async (event) => {
     const message = event.data;
+
     switch (message.command) {
       case "authComplete":
         session = message.payload.session;
         break;
       case "projectChosen":
         project = message.payload.project;
-        console.log('project');
-        console.log(project);
         break;
     }
   });
