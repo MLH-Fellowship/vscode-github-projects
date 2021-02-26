@@ -56,53 +56,24 @@ To customize languages we support for inline snippet completion, icon-color and 
 - [Sumi Kolli](https://github.com/sgkolli535)
 
 ## How to run locally?
-- git clone
-
-  ```git clone https://github.com/Open-Sourced-Olaf/Get-svg-icons.git```
-- Install node dependencies with ```npm install```
-- Open project with VS Code
-- Press F5 or run Launch Extension in the debug window or run ```npm run compile```
+- git clone https://github.com/Open-Sourced-Olaf/vscode-github-projects.git
+- npm install
+- npm run watch
+- code .
+- fn + F5 (or Launch Extension in command palette)
+- Don't forget to sign in with GitHub!  
 
 ## How to contribute?
-Take a look at the [contribution guidelines](https://github.com/Open-Sourced-Olaf/Get-svg-icons.git
-) and open a [new issue](https://github.com/Open-Sourced-Olaf/Get-svg-icons/issues) or [pull request](https://github.com/Open-Sourced-Olaf/Get-svg-icons/pulls) on GitHub.
+Open a new issue in our extension!  As long as you're in MLH you can make new issues and create pull requests on this project.  
 
 ## Release Notes
 
 ### 1.0.0
 
-Initial release of the extension
+Initial release. using generator code (npm install -g yo generator-code) I created a new extension in TypeScript.  We decided to use the Webview API because it allows our extension view to be fully customizable.  Webview run in isolated contexts that cannot directly access local resources, so we used GQL to query GitHub.  
+
+We're using various lifecycle methods such as updateFilters, kill, revive, dispose, update, and finally we compile our HTML for the webview which is based on TypeScript components.  Using Svelte and Apollo to share our GitHub repository information with our WebView panel, 
+
+We aimed to create an app which would bring GitHub projects to life in a VS Code-themed way, including Rollup in order to generate an out/compiled folder which is what bundles our project into JavaScript.  
 
 -----------------------------------------------------------------------------------------------------------
-
-## Blockers
-
-In one sentence: A VS Code extension that brings GitHub's projects into VS Code.
-
-How did I make this repository?  You know.
-
-Step 1: npm install -g yo generator-code
-Step 2: yo code (it'll ask you a bunch of questions.  Scroll with the arrow keys!)
-
-What did I select?
-
-I selected **New Extension (TypeScript)**, **vscode-github-projects** as the extension name, vscode-github-projects as the extension identifier, I did set specific description text which you can see in package.json "description".
-
-I said Yes to initialize a git repository, No to "bundle the source code with webpack", and **npm** as the package manager to use.
-
-Currently I just registered a test warning message in extension.js, and in package.json I added the message to **activationEvents** and **contributes/commands**.
-
-How to run in VS Code?  fn + F5 to open a new Extension Development Host window.
-
-⌘ + Shift + P to get Command Palette, in which we can do **Developer: Reload Window** to get saved changes, OR commands such as **Hello World**.
-
-
-Using TypeScript (because we added Svelte later on), we aimed to create an app which would bring GitHub projects to life!  We started off with the basics such as registering commands in the base src/extension.ts file and then describing activation events and contributes/commands in package.json, and then proceeded to refactor things.  Specifically, Shrill refactored the command function to make it more concise.  
-
-We also have our own custom CSS except it’s ONLY for the native VS Code themes.  We were inspired by this sick VSinder app which is for developers to share code but in our case we’re just using Svelte and Apollo GraphQL to share our GitHub repository information with our WebView panel.  We’re also using all types of lifecycle methods such as update() and we’re not hardcoding our HTML page in src/HomePanel.ts and instead are just importing them from different Svelte components.  
-We also made this really awesome Nonce feature it’s like a one-time authentication thing where you generate a one-time code.  
-
-When we were building src/HomePanel.ts I distinctly remember that one time he made it so that we could join paths with the out/compiled folder.  I feel like once we got out/compiled truly set up with different TS files, originating from Svelte, compiled by Rollup - that’s what really got us going.  
-
-So, we started out with that and then built in some lifecycle functions into our HomePanel such as kill() and revive().  
-
