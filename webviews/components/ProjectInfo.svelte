@@ -41,10 +41,14 @@
 
   $: {
     if ($projectInfo.data) {
+      console.log("project");
+      console.log($projectInfo.data);
       project =
         type === "repo"
           ? $projectInfo.data.repository.project
-          : $projectInfo.data.organization.project;
+          : type === "org"
+          ? $projectInfo.data.organization.project
+          : $projectInfo.data.viewer.project;
 
       if (project.columns) {
         columns = project.columns.nodes.map((column) => ({
@@ -238,7 +242,9 @@
     <KeyboardBackspace width="25" height="25" />
   </div>
 
-  <div style="display: flex; flex-direction: row; justify-content: space-between; overflow-x: scroll;">
+  <div
+    style="display: flex; flex-direction: row; justify-content: space-between; overflow-x: scroll;"
+  >
     <div style="display: flex; flex-direction: column">
       <h1>{project.name}</h1>
       <h2>{project.body}</h2>
@@ -246,7 +252,9 @@
     <div
       style="display: flex; flex-direction: row; justify-content: flex-start; margin:16px 0px;"
     >
-      <button style="min-width: 7rem; margin-right:8px;"> View in GitHub </button>
+      <button style="min-width: 7rem; margin-right:8px;">
+        View in GitHub
+      </button>
       <button style="min-width: 7rem;"> Close Project </button>
     </div>
   </div>

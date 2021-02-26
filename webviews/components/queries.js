@@ -239,7 +239,7 @@ export const GET_ORG_PROJECT_INFO = gql`
 `;
 
 export const GET_USER_PROJECT_INFO = gql`
-  query GetUserProjectInfo($login: String!, $number: Int!) {
+  query GetUserProjectInfo($number: Int!) {
     viewer {
       project(number: $number) {
         id

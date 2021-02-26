@@ -41,16 +41,17 @@
   }
 </script>
 
-{#if $collaborators.loading}
-  Loading...
-{:else if $collaborators.error}
-  Error: {$collaborators.error.message}
-{:else if container.type !== "user"}
-  {#each names as name}
-    {#if name.name}
-      <p>{name.name}</p>
-    {/if}
-  {/each}
+{#if container.type !== "user"}
+  {#if $collaborators.loading}
+    Loading...
+  {:else if $collaborators.error}
+    Error: {$collaborators.error.message}
+    {#each names as name}
+      {#if name.name}
+        <p>{name.name}</p>
+      {/if}
+    {/each}
+  {/if}
 {:else}
   <p>{container.name}</p>
 {/if}
