@@ -260,6 +260,7 @@
   </div>
 
   <Board
+    project={project}
     allColumns={columns}
     handlers={{
       cardMutations: handleCardMutations,

@@ -6,7 +6,7 @@
   import AddCardContent from "./AddCardContent.svelte";
   import AddCol from "./AddCol.svelte";
 
-  export let allColumns;
+  export let allColumns, project;
   export let handlers;
 
   let prevColumns = [];
@@ -130,7 +130,7 @@
       </div>
     {/each}
     <Modal>
-      <AddCol {handlers} />
+      <AddCol {handlers} {project} />
     </Modal>
   </div>
 </div>
