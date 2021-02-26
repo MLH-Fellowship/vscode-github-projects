@@ -5,9 +5,6 @@
   export let project;
   export let container;
 
-  console.log(project);
-  console.log(container);
-
   const collaborators =
     container.type === "repo"
       ? query(queries.GET_REPO_COLLABORATORS, {

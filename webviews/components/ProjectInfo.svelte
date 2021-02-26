@@ -41,8 +41,6 @@
 
   $: {
     if ($projectInfo.data) {
-      console.log("project");
-      console.log($projectInfo.data);
       project =
         type === "repo"
           ? $projectInfo.data.repository.project
