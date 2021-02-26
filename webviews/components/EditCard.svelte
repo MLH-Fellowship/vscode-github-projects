@@ -45,7 +45,7 @@
         },
       }
     );
-  }
+  };
 
   const deleteCard = () => {
     handlers.cardMutations(card_info, "deleteCard");

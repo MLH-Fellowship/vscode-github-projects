@@ -1,7 +1,11 @@
 <script>
-  import { getContext } from 'svelte';
+
+  import { getContext } from "svelte";
   export let message, handlers;
-  const { close } = getContext('simple-modal');
+  import Check from "svelte-material-icons/Check.svelte";
+  import Close from "svelte-material-icons/Close.svelte";
+  const { close } = getContext("simple-modal");
+
   let text = message.note;
 
   const closeAdd = () => {
@@ -11,21 +15,19 @@
 
   const closePop = () => {
     close();
-  }
+  };
 </script>
 
-<div>
+<div style="margin-top: 0.4rem">
   <input bind:value={text} />
-  <div style="display: flex; flex-direction: row;">
-    <button on:click={closeAdd}
-    style="width:50%; margin-right: 5px;"
-    >
-      Confirm
-    </button>
-    <button on:click={closePop}
-    style="width: 50%;"
-    >
-      Cancel
-    </button>
+  <div
+    style="display: flex; flex-direction: row; justify-content: space-around; margin-top: 0.4rem"
+  >
+    <div on:click={closeAdd} style="cursor: pointer;">
+      <Check height="20" width="20" />
+    </div>
+    <div on:click={closePop} style="cursor: pointer;">
+      <Close height="20" width="20" />
+    </div>
   </div>
 </div>

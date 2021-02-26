@@ -97,8 +97,9 @@
     {/each}
   </div>
 {:else}
-  <h3>Project</h3>
+  <h2>Project</h2>
   <h4>{project.name}</h4>
-  <h3>Collaborators/Members</h3>
+  <div style="height: 1.5rem;"/>
+  <h2>Collaborators/Members</h2>
   <Collaborators {project} {container} />
 {/if}
