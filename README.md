@@ -30,30 +30,15 @@ Instead of having a separate Kanban board where you can collaborate on projects 
 - Rollup
 - GitHub API (Apollo GraphQL)
 
-## Extension Settings
-
-To customize languages we support for inline snippet completion, icon-color and icon-size for hover preview
-
-- Navigate to extension settings
-- Choose ```Extension Settings```
-- From here, you can customize ```getSvgIcons.iconColor```, ```getSvgIcons.iconSize``` and ```getSvgIcons.selector```
-
 ## Icon source
-- [Bootstrap Icons](https://github.com/twbs/icons)
-
-## Prefixes
-
-| Prefix         | SVG Icons                           | Version |
-|----------------|-------------------------------------|---------|
-| `icon-`           | Bootstrap Icons              | 1.0     |
+- [Codicons](https://microsoft.github.io/vscode-codicons/dist/codicon.html)
 
 ## Contributors
 
-- [Bodhisha Thomas](https://github.com/bodhisha)
-- [Marco Chan](https://github.com/m2chan)
-- [Rashi Sharma](https://github.com/rashi-s17)
-- [Steven Tey](https://github.com/steven-tey)
-- [Sumi Kolli](https://github.com/sgkolli535)
+- [Samuel Yuan] (https://github.com/yuansamuel)
+- [Shrill Shrestha] (https://github.com/shrillshrestha)
+- [Aitik Gupta] (https://github.com/aitikgupta)
+- [Dean Gladish] (https://github.com/gladishd)
 
 ## How to run locally?
 - git clone https://github.com/Open-Sourced-Olaf/vscode-github-projects.git
