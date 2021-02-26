@@ -15,9 +15,16 @@
           },
           pollInterval: 1800,
         })
-      : query(queries.GET_ORG_PROJECT_INFO, {
+      : type === "org"
+      ? query(queries.GET_ORG_PROJECT_INFO, {
           variables: {
             login: login,
+            number: parseInt(number),
+          },
+          pollInterval: 1800,
+        })
+      : query(queries.GET_USER_PROJECT_INFO, {
+          variables: {
             number: parseInt(number),
           },
           pollInterval: 1800,
@@ -30,7 +37,6 @@
 
   $: {
     if ($projectInfo.data) {
-      console.log(projectInfo);
       project =
         type === "repo"
           ? $projectInfo.data.repository.project
