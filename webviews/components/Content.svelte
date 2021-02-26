@@ -4,9 +4,9 @@
 
   const { open } = getContext('simple-modal');
 
-  const showSurprise = () => {
+  const add_card = () => {
     open(AddCard, { message: "Add Card" }, {closeButton: ""});
   };
 </script>
 
-<p><button on:click={showSurprise} style="width: 100%; margin-top: 5px;">Add Card</button></p>
+<p><button on:click={add_card} style="width: 100%; margin-top: 5px;">Add Card</button></p>

@@ -19,8 +19,11 @@
   
   <div style="display:flex; flex-direction: row; margin-top:5px;">
     <button on:click={edit_card} style="margin-right:5px;">Edit</button>
-    <button on:click={deleteCard}>
+    <button on:click={deleteCard} style="margin-right:5px;">
       Delete
+    </button>
+    <button on:click={deleteCard}>
+      Archive
     </button>
   </div>
 </div>

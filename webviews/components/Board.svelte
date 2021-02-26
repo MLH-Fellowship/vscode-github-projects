@@ -4,6 +4,7 @@
   import { createEventDispatcher } from 'svelte';
   import Modal from 'svelte-simple-modal';
   import Content from './Content.svelte';
+  import AddCol from './AddCol.svelte';
   export let allColumns;
 
   let filteredColumns = [];
@@ -99,5 +100,8 @@
         </Modal>
       </div>
     {/each}
+    <Modal>
+      <AddCol />
+    </Modal>
   </div>
 </div>
