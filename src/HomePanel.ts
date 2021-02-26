@@ -141,6 +141,15 @@ export class HomePanel {
           SidebarProvider.chooseProject(data.value);
           break;
         }
+        case "getSession": {
+          if (HomePanel.currentPanel) {
+            HomePanel.currentPanel._panel.webview.postMessage({
+              command: "returnSession",
+              payload: { session: SidebarProvider.session },
+            });
+          }
+          break;
+        }
         case "onError": {
           if (!data.value) {
             return;
