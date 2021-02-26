@@ -9,9 +9,6 @@
   let filters = ["Repository"];
 
   window.addEventListener("message", async (event) => {
-    console.log("session");
-    console.log(session);
-    console.log(event.data);
     const message = event.data;
     switch (message.command) {
       case "authComplete":
@@ -23,7 +20,6 @@
         filters = message.payload.filters;
         break;
     }
-    console.log(session);
   });
 
   let client;
@@ -61,13 +57,19 @@
     name={selectedContainer.name}
     owner={selectedContainer.owner.login}
     number={selectedProject.number}
+    on:message={handleMessage}
   />
 {:else if selectedContainer.type === "org"}
   <ProjectInfo
     type="org"
     login={selectedContainer.login}
     number={selectedProject.number}
+    on:message={handleMessage}
   />
 {:else if selectedContainer.type === "user"}
-  <ProjectInfo type="user" number={selectedProject.number} />
+  <ProjectInfo
+    type="user"
+    number={selectedProject.number}
+    on:message={handleMessage}
+  />
 {/if}

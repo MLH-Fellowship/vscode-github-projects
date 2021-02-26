@@ -1,9 +1,12 @@
 <script>
   import Board from "./Board.svelte";
   import { mutation, query } from "svelte-apollo";
+  import { createEventDispatcher } from "svelte";
   import * as queries from "./queries.js";
 
   export let type, name, owner, login, number;
+
+  const dispatch = createEventDispatcher();
 
   const projectInfo =
     type === "repo"
@@ -216,6 +219,13 @@
       console.log(error.message);
     }
   }
+
+  function handleBackPressed() {
+    dispatch("message", {
+      container: null,
+      project: null,
+    });
+  }
 </script>
 
 {#if $projectInfo.loading}
@@ -223,6 +233,7 @@
 {:else if $projectInfo.error}
   Error: {$projectInfo.error.message}
 {:else}
+  <button on:click={handleBackPressed}>Back</button>
   <h1>{project.name}</h1>
   <h2>{project.body}</h2>
   <Board allColumns={columns} on:message={handleMessage} />
