@@ -7,6 +7,7 @@
   import AddCol from "./AddCol.svelte";
 
   export let allColumns;
+  export let handlers;
 
   let prevColumns = [];
   let filteredColumns = [];
@@ -117,17 +118,17 @@
         >
           {#if column.cards}
             {#each column.cards as card (card.id)}
-              <Card {card} {column} on:message={handleMessage} />
+              <Card {card} {column} {handlers} on:message={handleMessage} />
             {/each}
           {/if}
         </div>
         <Modal>
-          <AddCardContent {column}/>
+          <AddCardContent {column} {handlers}/>
         </Modal>
       </div>
     {/each}
     <Modal>
-      <AddCol />
+      <AddCol {handlers} />
     </Modal>
   </div>
 </div>

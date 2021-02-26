@@ -91,7 +91,7 @@
             variables: {
               contentId: null,
               note: payload.note,
-              projectColumnId: payload.column.id,
+              projectColumnId: payload.colId,
             },
           });
           break;
@@ -163,7 +163,7 @@
       switch (request) {
         case "addColumn":
           addColumn({
-            variables: { name: payload.name, projectId: payload.project.id },
+            variables: { name: payload.name, projectId: payload.projId },
           });
           break;
 
@@ -236,5 +236,5 @@
   <button style="width:50px;" on:click={handleBackPressed}>Back</button>
   <h1>{project.name}</h1>
   <h2>{project.body}</h2>
-  <Board allColumns={columns} on:message={handleMessage} />
+  <Board allColumns={columns} handlers={{"cardMutations": handleCardMutations, "columnMutations": handleColumnMutations, "projectMutations": handleProjectMutations}} on:message={handleMessage} />
 {/if}
