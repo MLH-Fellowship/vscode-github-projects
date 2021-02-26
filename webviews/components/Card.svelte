@@ -1,6 +1,7 @@
 <script>
   import Modal from "svelte-simple-modal";
   import EditCard from "./EditCard.svelte";
+  import IssueCard from "./IssueCard.svelte";
   export let card;
 </script>
 
@@ -20,6 +21,12 @@
       </Modal>
     </div>
   {:else if card.content && card.content.title}
-    <p>{card.content.title}</p>
+    <div style="display: flex; flex-direction: row; width: 100%; justify-content: space-between;">
+      <p>{card.content.title}</p>
+      <span style= "height: 5%; border-style: solid; border-radius: 5px; padding:0 5px 0 5px;"><a style="text-decoration: none" href={card.content.url}>{card.content.__typename}</a></span>
+    </div>
+    <Modal>
+      <IssueCard note={card.content.title} on:message/>
+    </Modal>
   {/if}
 </div>
