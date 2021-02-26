@@ -5,6 +5,7 @@
   export let card;
 </script>
 
+{#if card.note || (card.content && card.content.title)}
 <div
   style="border-style: solid;
         border-color: white;
@@ -30,3 +31,15 @@
     </Modal>
   {/if}
 </div>
+{:else}
+<div
+  style="border-style: solid;
+  border-color: white;
+  border-width: 1px;
+  border-radius: 5px;
+  padding: 1rem 1rem 1rem 1rem;
+  margin-top: 1rem;"  
+>
+  <p>You don't have permissions to view this card.</p>
+</div>
+{/if}
