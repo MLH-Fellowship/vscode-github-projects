@@ -19,75 +19,80 @@ How to run in VS Code?  fn + F5 to open a new Extension Development Host window.
 
 
 
-The rest is just auto-generated text check it out:
+# Get Svg Icons
+View icons from bootstrap's icon library and insert them into your code through snippets.
 
-# vscode-github-projects README
+## Installation
 
-This is the README for your extension "vscode-github-projects". After writing up a brief description, we recommend including the following sections.
+- Go to VS Marketplace https://marketplace.visualstudio.com/items?itemName=marcochan.get-svg-icons to install the extension
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+### Side Panel with customizable icons
 
-For example if there is an image subfolder under your extension project workspace:
+- Side Panel with around 1300+ icons
+- Users can search for the icon-name (or tags associated with it) and choose the desired icon
+- On clicking on the icon, corresponding svg code will be inserted at the last active position on the code editor
+- Users can change the height and width of the svg directly from the side panel
+![demo](https://github.com/Open-Sourced-Olaf/Get-svg-icons/blob/staging/screenshots/side-panel.gif)
 
-\!\[feature X\]\(images/feature-x.png\)
+### Inline Icon suggestions
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+- Type "icon-" (without quotes) to start auto-completing icons. If the icon preview is not showing up (as shown in the GIF below), press Ctrl+Space (default hotkey) or press the  ">" icon to expand the details view.
+- An inline replacement of the selected icon with its svg will be done.
+![demo](https://github.com/Open-Sourced-Olaf/Get-svg-icons/blob/staging/screenshots/inline_icon_completion.gif)
 
-## Requirements
+### Icon preview on hover
+- On hovering over the svg code (class name) , you can preview the icon of the corresponding svg snippet
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+## Built with:
+- Typescript
+- VS Code API
+- Python for web-scraping
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+To customize languages we support for inline snippet completion, icon-color and icon-size for hover preview
 
-For example:
+- Navigate to extension settings
+- Choose ```Extension Settings```
+- From here, you can customize ```getSvgIcons.iconColor```, ```getSvgIcons.iconSize``` and ```getSvgIcons.selector```
 
-This extension contributes the following settings:
+## Icon source
+- [Bootstrap Icons](https://github.com/twbs/icons)
 
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
+## Prefixes
 
-## Known Issues
+| Prefix         | SVG Icons                           | Version |
+|----------------|-------------------------------------|---------|
+| `icon-`           | Bootstrap Icons              | 1.0     |
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+## Contributors
+
+- [Bodhisha Thomas](https://github.com/bodhisha)
+- [Marco Chan](https://github.com/m2chan)
+- [Rashi Sharma](https://github.com/rashi-s17)
+- [Steven Tey](https://github.com/steven-tey)
+- [Sumi Kolli](https://github.com/sgkolli535)
+
+## How to run locally?
+- Clone the repository
+
+  ```git clone https://github.com/Open-Sourced-Olaf/Get-svg-icons.git```
+- Install node dependencies with ```npm install```
+- Open project with VS Code
+- Press F5 or run Launch Extension in the debug window or run ```npm run compile```
+
+## How to contribute?
+Take a look at the [contribution guidelines](https://github.com/Open-Sourced-Olaf/Get-svg-icons.git
+) and open a [new issue](https://github.com/Open-Sourced-Olaf/Get-svg-icons/issues) or [pull request](https://github.com/Open-Sourced-Olaf/Get-svg-icons/pulls) on GitHub.
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
-
 ### 1.0.0
 
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
+Initial release of the extension
 
 -----------------------------------------------------------------------------------------------------------
-## Following extension guidelines
 
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
 
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (macOS) to see a list of Markdown snippets
-
-### For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
