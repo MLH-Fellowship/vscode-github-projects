@@ -1,6 +1,6 @@
 <script>
-  import Modal from 'svelte-simple-modal';
-  import EditCard from './EditCard.svelte';
+  import Modal from "svelte-simple-modal";
+  import EditCard from "./EditCard.svelte";
   export let card;
 </script>
 
@@ -16,7 +16,7 @@
     <div>
       <p>{card.note}</p>
       <Modal>
-        <EditCard note={card.note}/>
+        <EditCard note={card.note} on:message/>
       </Modal>
     </div>
   {:else if card.content && card.content.title}
