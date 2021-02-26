@@ -27,6 +27,16 @@ This is the README for your extension "vscode-github-projects". After writing up
 
 ## Features
 
+Using TypeScript (because we added Svelte later on), we aimed to create an app which would bring GitHub projects to life!  We started off with the basics such as registering commands in the base src/extension.ts file and then describing activation events and contributes/commands in package.json, and then proceeded to refactor things.  Specifically, Shrill refactored the command function to make it more concise.  
+
+We also have our own custom CSS except it’s ONLY for the native VS Code themes.  We were inspired by this sick VSinder app which is for developers to share code but in our case we’re just using Svelte and Apollo GraphQL to share our GitHub repository information with our WebView panel.  We’re also using all types of lifecycle methods such as update() and we’re not hardcoding our HTML page in src/HomePanel.ts and instead are just importing them from different Svelte components.  
+
+Shrill also made this really awesome Nonce feature it’s like a one-time authentication thing where you generate a one-time code.  
+
+When we were building src/HomePanel.ts I distinctly remember that one time he made it so that we could join paths with the out/compiled folder.  I feel like once we got out/compiled truly set up with different TS files, originating from Svelte, compiled by Rollup - that’s what really got us going.  
+
+So, we started out with that and then built in some lifecycle function into our HomePanel such as kill() and revive(), and additionally 
+
 Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
 
 For example if there is an image subfolder under your extension project workspace:
