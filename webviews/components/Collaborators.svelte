@@ -5,9 +5,6 @@
   export let project;
   export let container;
 
-  console.log(project);
-  console.log(container);
-
   const collaborators =
     container.type === "repo"
       ? query(queries.GET_REPO_COLLABORATORS, {
@@ -46,6 +43,7 @@
     Loading...
   {:else if $collaborators.error}
     Error: {$collaborators.error.message}
+  {:else}
     {#each names as name}
       {#if name.name}
         <p>{name.name}</p>

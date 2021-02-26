@@ -19,7 +19,6 @@
       containers = [];
       if (filters.includes("Personal Profile")) {
         let newUser = addType($containersInfo.data.viewer, "user");
-        console.log(newUser);
         containers = [...containers, newUser];
       }
       if (

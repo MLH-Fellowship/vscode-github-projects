@@ -41,8 +41,6 @@
 
   $: {
     if ($projectInfo.data) {
-      console.log("project");
-      console.log($projectInfo.data);
       project =
         type === "repo"
           ? $projectInfo.data.repository.project
@@ -126,9 +124,9 @@
           // TODO: This is untested, use payload to add a `toColumn` parameter
           switchCardColumn({
             variables: {
-              afterCardId: null,
+              afterCardId: payload.afterCardId,
               cardId: card.id,
-              columnId: payload.toColumn.id,
+              columnId: payload.colId,
             },
           });
           break;
@@ -252,12 +250,23 @@
     <div
       style="display: flex; flex-direction: row; justify-content: flex-start; margin:16px 0px;"
     >
+    <a href={project.url}>
       <button style="min-width: 7rem; margin-right:8px;">
         View in GitHub
       </button>
+    </a>
       <button style="min-width: 7rem;"> Close Project </button>
     </div>
   </div>
 
-  <Board project={project} allColumns={columns} handlers={{"cardMutations": handleCardMutations, "columnMutations": handleColumnMutations, "projectMutations": handleProjectMutations}} on:message={handleMessage} />
+  <Board
+    project={project}
+    allColumns={columns}
+    handlers={{
+      cardMutations: handleCardMutations,
+      columnMutations: handleColumnMutations,
+      projectMutations: handleProjectMutations,
+    }}
+    on:message={handleMessage}
+  />
 {/if}

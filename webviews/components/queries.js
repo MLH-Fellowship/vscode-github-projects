@@ -155,6 +155,7 @@ export const GET_REPO_PROJECT_INFO = gql`
         id
         name
         body
+        url
         columns(first: 100) {
           nodes {
             id
@@ -201,6 +202,7 @@ export const GET_ORG_PROJECT_INFO = gql`
         id
         name
         body
+        url
         columns(first: 100) {
           nodes {
             id
@@ -245,6 +247,7 @@ export const GET_USER_PROJECT_INFO = gql`
         id
         name
         body
+        url
         columns(first: 100) {
           nodes {
             id
