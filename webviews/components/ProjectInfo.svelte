@@ -3,6 +3,7 @@
   import { mutation, query } from "svelte-apollo";
   import { createEventDispatcher } from "svelte";
   import * as queries from "./queries.js";
+  import KeyboardBackspace from "svelte-material-icons/KeyboardBackspace.svelte";
 
   export let type, name, owner, login, number;
 
@@ -233,7 +234,9 @@
 {:else if $projectInfo.error}
   Error: {$projectInfo.error.message}
 {:else}
-  <button on:click={handleBackPressed}>Back</button>
+  <div on:click={handleBackPressed} style="cursor: pointer;">
+    <KeyboardBackspace width="25" height="25" />
+  </div>
   <h1>{project.name}</h1>
   <h2>{project.body}</h2>
   <Board allColumns={columns} on:message={handleMessage} />
