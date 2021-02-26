@@ -1,53 +1,13 @@
 <script>
-  import { gql } from "@apollo/client";
   import { query } from "svelte-apollo";
   import { createEventDispatcher } from "svelte";
+  import * as queries from "./queries.js";
 
   const dispatch = createEventDispatcher();
 
-  const GET_CONTAINER_WITH_PROJECT = gql`
-    query GetContainerWithProject {
-      viewer {
-        organizations(first: 100) {
-          nodes {
-            id
-            name
-            login
-            projects(first: 100) {
-              nodes {
-                name
-                body
-                number
-                closed
-              }
-            }
-          }
-        }
-        repositories(
-          affiliations: [OWNER, ORGANIZATION_MEMBER, COLLABORATOR]
-          first: 100
-        ) {
-          nodes {
-            id
-            name
-            owner {
-              login
-            }
-            projects(first: 100) {
-              nodes {
-                name
-                body
-                number
-                closed
-              }
-            }
-          }
-        }
-      }
-    }
-  `;
-
-  const containersInfo = query(GET_CONTAINER_WITH_PROJECT);
+  const containersInfo = query(queries.GET_CONTAINER_WITH_PROJECT, {
+    pollInterval: 5000,
+  });
 
   let containers = [];
 
@@ -66,6 +26,8 @@
           containers = [...containers, newRepo];
         }
       }
+      let newUser = addType($containersInfo.data.viewer, "user");
+      containers = [...containers, newUser];
     }
   }
 
