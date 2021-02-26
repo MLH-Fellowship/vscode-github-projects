@@ -17,16 +17,10 @@
   $: {
     if ($containersInfo.data) {
       containers = [];
-      console.log(filters);
-      if (
-        $containersInfo.data.viewer.organizations &&
-        filters.includes("Organization")
-      ) {
-        for (let organization of $containersInfo.data.viewer.organizations
-          .nodes) {
-          let newOrg = addType(organization, "org");
-          containers = [...containers, newOrg];
-        }
+      if (filters.includes("Personal Profile")) {
+        let newUser = addType($containersInfo.data.viewer, "user");
+        console.log(newUser);
+        containers = [...containers, newUser];
       }
       if (
         $containersInfo.data.viewer.repositories &&
@@ -37,10 +31,15 @@
           containers = [...containers, newRepo];
         }
       }
-      if (filters.includes("Personal Profile")) {
-        let newUser = addType($containersInfo.data.viewer, "user");
-        console.log(newUser);
-        containers = [...containers, newUser];
+      if (
+        $containersInfo.data.viewer.organizations &&
+        filters.includes("Organization")
+      ) {
+        for (let organization of $containersInfo.data.viewer.organizations
+          .nodes) {
+          let newOrg = addType(organization, "org");
+          containers = [...containers, newOrg];
+        }
       }
 
       indexes = [];

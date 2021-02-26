@@ -48,7 +48,7 @@
         },
       }
     );
-  }
+  };
 
   const deleteCard = () => {
     //column_info is the column where card is
@@ -59,8 +59,7 @@
   const archiveCard = () => {
     //card_info is the card here
     //add mutation to archive card
-  }
-
+  };
 </script>
 
 <div>

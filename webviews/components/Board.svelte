@@ -64,24 +64,25 @@
     filteredColumns = [...filteredColumns];
   }
 
+  let cardsOpen = 0;
+
   function handleMessage(event) {
     if (event.detail.payload === "stopDrag") {
-      draggable = false;
+      cardsOpen--;
     } else if (event.detail.payload === "startDrag") {
+      cardsOpen++;
+    }
+    if (cardsOpen == 0) {
       draggable = true;
+    } else {
+      draggable = false;
     }
   }
 </script>
 
-<div
-  style="display: flex; flex-direction: row; justify-content: flex-start; margin:16px 0px;"
->
-  <button style="width: 20%; margin-right:8px;"> View in GitHub </button>
-  <button style="width: 20%;"> Close Project </button>
-</div>
 <div style="display: flex; flex-direction: row; overflow-x:scroll;">
   <div
-  style="display: flex; flex-direction: row;"
+    style="display: flex; flex-direction: row;"
     use:dndzone={{
       items: filteredColumns,
       type: "columns",
@@ -91,26 +92,13 @@
     on:finalize={handleFinalizeColumns}
   >
     {#each filteredColumns as column (column.id)}
-      <div
-        style="border-style: solid;
-        border-color: white;
-        border-width: 1px;
-        border-radius: 5px;
-        display: flex;
-        flex-direction: column;
-        padding: 1rem 1rem 1rem 1rem;
-        margin-right: 1rem;
-        overflow-y: hidden;
-        min-height: 30rem;
-        max-height: 100%;
-        min-width: 20rem;
-        width:25%;"
-      >
+      <div class="project-column">
         <h2>{column.name}</h2>
         <div
           style="height: 100%;
         overflow-y: scroll;
-        min-height: 30rem;"
+        min-height: 30rem;
+        margin-bottom: 0.4rem"
           use:dndzone={{ items: column.cards, dragDisabled: !draggable }}
           on:consider={(e) => handleConsiderCards(column.id, e)}
           on:finalize={(e) => handleFinalizeCards(column.id, e)}

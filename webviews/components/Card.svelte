@@ -22,9 +22,17 @@
       </Modal>
     </div>
   {:else if card.content && card.content.title}
-    <div style="display: flex; flex-direction: row; width: 100%; justify-content: space-between;">
+    <div
+      style="display: flex; flex-direction: row; width: 100%; justify-content: space-between;"
+    >
       <p>{card.content.title}</p>
-      <p style= "height: 5%; border-style: solid; border-radius: 5px; padding:0 5px 0 5px;"><a style="text-decoration: none" href={card.content.url}>{card.content.__typename}</a></p>
+      <p
+        style="height: 5%; border-style: solid; border-radius: 5px; padding:2px 5px 2px 5px; border-width: 1px; margin-left: 0.2rem; margin-top: 0.2rem;"
+      >
+        <a style="text-decoration: none" href={card.content.url}
+          >{card.content.__typename}</a
+        >
+      </p>
     </div>
     <Modal>
       <IssueCard card_info={card} column_info={column} note={card.content.title} on:message/>

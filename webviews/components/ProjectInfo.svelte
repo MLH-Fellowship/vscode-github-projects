@@ -3,6 +3,7 @@
   import { mutation, query } from "svelte-apollo";
   import { createEventDispatcher } from "svelte";
   import * as queries from "./queries.js";
+  import KeyboardBackspace from "svelte-material-icons/KeyboardBackspace.svelte";
 
   export let type, name, owner, login, number;
 
@@ -233,8 +234,22 @@
 {:else if $projectInfo.error}
   Error: {$projectInfo.error.message}
 {:else}
-  <button style="width:50px;" on:click={handleBackPressed}>Back</button>
-  <h1>{project.name}</h1>
-  <h2>{project.body}</h2>
+  <div on:click={handleBackPressed} style="cursor: pointer; width: 25px">
+    <KeyboardBackspace width="25" height="25" />
+  </div>
+
+  <div style="display: flex; flex-direction: row; justify-content: space-between; overflow-x: scroll;">
+    <div style="display: flex; flex-direction: column">
+      <h1>{project.name}</h1>
+      <h2>{project.body}</h2>
+    </div>
+    <div
+      style="display: flex; flex-direction: row; justify-content: flex-start; margin:16px 0px;"
+    >
+      <button style="min-width: 7rem; margin-right:8px;"> View in GitHub </button>
+      <button style="min-width: 7rem;"> Close Project </button>
+    </div>
+  </div>
+
   <Board allColumns={columns} on:message={handleMessage} />
 {/if}
