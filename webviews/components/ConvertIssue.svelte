@@ -7,6 +7,7 @@
   const convertIssue = () => {
     //body is issue body and message.note is title
     //message.card_info is the card
+    //message.column_info is the column
     //add mutations for converting to issue
     console.log(message.card_info);
     close();

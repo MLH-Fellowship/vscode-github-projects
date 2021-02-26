@@ -2,7 +2,7 @@
   import { getContext, createEventDispatcher } from "svelte";
   import EditField from "./EditField.svelte";
   import ConvertIssue from "./ConvertIssue.svelte";
-  export let note, card_info;
+  export let note, card_info, column_info;
 
   const { open } = getContext("simple-modal");
   const dispatch = createEventDispatcher();
@@ -12,7 +12,7 @@
     //open popup
     open(
       EditField,
-      { message: {note, card_info} },
+      { message: {note, card_info, column_info} },
       { closeButton: "" },
       {
         onOpen: () => {
@@ -33,7 +33,7 @@
     //card_info is the card
     //note is the title for the card.
     open(ConvertIssue,
-    { message: {note, card_info} },
+    { message: {note, card_info, column_info} },
     { closeButton: "" },
     {
         onOpen: () => {
@@ -51,6 +51,7 @@
   }
 
   const deleteCard = () => {
+    //column_info is the column where card is
     //card_info is the card here
     //add mutation for deleting card
   };

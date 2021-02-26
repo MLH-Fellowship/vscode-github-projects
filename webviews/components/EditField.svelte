@@ -6,6 +6,7 @@
 
   const closeAdd = () => {
     console.log(message.card_info);
+    //message.column_info is the column
     //message.card_info is the card
     //add mutations for editing card
     close();

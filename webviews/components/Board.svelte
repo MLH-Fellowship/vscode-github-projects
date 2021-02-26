@@ -117,12 +117,12 @@
         >
           {#if column.cards}
             {#each column.cards as card (card.id)}
-              <Card {card} on:message={handleMessage} />
+              <Card {card} {column} on:message={handleMessage} />
             {/each}
           {/if}
         </div>
         <Modal>
-          <AddCardContent />
+          <AddCardContent {column}/>
         </Modal>
       </div>
     {/each}
