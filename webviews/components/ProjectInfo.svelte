@@ -234,7 +234,7 @@
 {:else if $projectInfo.error}
   Error: {$projectInfo.error.message}
 {:else}
-  <div on:click={handleBackPressed} style="cursor: pointer;">
+  <div on:click={handleBackPressed} style="cursor: pointer; width: 25px">
     <KeyboardBackspace width="25" height="25" />
   </div>
   <h1>{project.name}</h1>

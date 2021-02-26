@@ -103,7 +103,8 @@
         <div
           style="height: 100%;
         overflow-y: scroll;
-        min-height: 30rem;"
+        min-height: 30rem;
+        margin-bottom: 0.4rem"
           use:dndzone={{ items: column.cards, dragDisabled: !draggable }}
           on:consider={(e) => handleConsiderCards(column.id, e)}
           on:finalize={(e) => handleFinalizeCards(column.id, e)}
