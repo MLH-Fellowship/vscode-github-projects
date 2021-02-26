@@ -81,7 +81,7 @@
 </div>
 <div style="display: flex; flex-direction: row; overflow-x:scroll;">
   <div
-    style="display: flex; flex-direction: row;"
+  style="display: flex; flex-direction: row;"
     use:dndzone={{
       items: filteredColumns,
       type: "columns",
