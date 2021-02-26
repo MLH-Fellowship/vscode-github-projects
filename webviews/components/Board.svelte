@@ -81,7 +81,7 @@
 </div>
 <div style="display: flex; flex-direction: row; overflow-x:scroll;">
   <div
-  style="display: flex; flex-direction: row;"
+    style="display: flex; flex-direction: row;"
     use:dndzone={{
       items: filteredColumns,
       type: "columns",
@@ -91,20 +91,7 @@
     on:finalize={handleFinalizeColumns}
   >
     {#each filteredColumns as column (column.id)}
-      <div
-        style="border-style: solid;
-        border-color: white;
-        border-width: 1px;
-        border-radius: 5px;
-        display: flex;
-        flex-direction: column;
-        padding: 1rem 1rem 1rem 1rem;
-        margin-right: 1rem;
-        min-width: 20rem;
-        overflow-y: hidden;
-        min-height: 30rem;
-        max-height: 100%"
-      >
+      <div class="project-column">
         <h2>{column.name}</h2>
         <div
           style="height: 100%;

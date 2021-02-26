@@ -26,7 +26,7 @@
     >
       <p>{card.content.title}</p>
       <p
-        style="height: 5%; border-style: solid; border-radius: 5px; padding:0 5px 0 5px; border-width: 1px margin-left: 0.2rem"
+        style="height: 5%; border-style: solid; border-radius: 5px; padding:2px 5px 2px 5px; border-width: 1px; margin-left: 0.2rem;"
       >
         <a style="text-decoration: none" href={card.content.url}
           >{card.content.__typename}</a
