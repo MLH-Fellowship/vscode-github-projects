@@ -185,10 +185,12 @@ export const GET_REPO_PROJECT_INFO = gql`
 
   fragment fieldsIssue on Issue {
     title
+    url
   }
 
   fragment fieldsPR on PullRequest {
     title
+    url
   }
 `;
 
@@ -228,9 +230,11 @@ export const GET_ORG_PROJECT_INFO = gql`
   }
   fragment fieldsIssue on Issue {
     title
+    url
   }
   fragment fieldsPR on PullRequest {
     title
+    url
   }
 `;
 
