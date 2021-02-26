@@ -100,10 +100,10 @@
         flex-direction: column;
         padding: 1rem 1rem 1rem 1rem;
         margin-right: 1rem;
-        min-width: 20rem;
         overflow-y: hidden;
         min-height: 30rem;
-        max-height: 100%"
+        max-height: 100%;
+        width:25%;"
       >
         <h2>{column.name}</h2>
         <div
@@ -125,8 +125,8 @@
         </Modal>
       </div>
     {/each}
+    <Modal>
+      <AddCol />
+    </Modal>
   </div>
-  <Modal>
-    <AddCol />
-  </Modal>
 </div>

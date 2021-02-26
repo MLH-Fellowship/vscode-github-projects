@@ -233,7 +233,7 @@
 {:else if $projectInfo.error}
   Error: {$projectInfo.error.message}
 {:else}
-  <button on:click={handleBackPressed}>Back</button>
+  <button style="width:50px;" on:click={handleBackPressed}>Back</button>
   <h1>{project.name}</h1>
   <h2>{project.body}</h2>
   <Board allColumns={columns} on:message={handleMessage} />
