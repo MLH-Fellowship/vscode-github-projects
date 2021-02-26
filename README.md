@@ -56,6 +56,10 @@ Open a new issue in our extension!  As long as you're in MLH you can make new is
 
 Initial release:  Using generator code (npm install -g yo generator-code) I created a new extension in TypeScript.  We decided to use the Webview API because it allows our extension view to be fully customizable.  Webviews run in isolated contexts that cannot directly access local resources, so we used GQL to query GitHub.  
 
-We're using various lifecycle methods such as updateFilters, kill, revive, dispose, update, and finally we compile our HTML for the webview which is based on TypeScript components.  Using Svelte and Apollo to share our GitHub repository information with our WebView panel, we aimed to create an app which would bring GitHub projects to life in a VS Code-themed way, including Rollup in order to generate an out/compiled folder which is what bundles our project into JavaScript.  
+We're using various lifecycle methods such as updateFilters, kill, revive, dispose, update, and finally we compile our HTML for the webview which is based on TypeScript components.  Using Svelte and Apollo to share our GitHub repository information with our WebView panel, we aimed to create an app which would bring GitHub projects to life in a VS Code-themed way, including Rollup in order to generate an out/compiled folder which is what bundles our project into JavaScript. 
+
+Rollup compiles our code into JS, and we access only the media aspect of the compiled stuff (the extension layer) in order to load content.  And we're using this really cool VS Code API object in order to post new messages and establish connections between the front-end and the extension itself.  
+
+The principal components are the Home, Extension, Sidebar, Sidebar Provider, Project Info, and Project List components.  
 
 -----------------------------------------------------------------------------------------------------------
