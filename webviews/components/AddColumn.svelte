@@ -6,9 +6,7 @@
   export let handlers, project;
 
   const closeAdd = () => {
-    // WE NEED PROJECT ID
-    console.log(project);
-    handlers.columnMutations(null, "addColumn", { name: text, projId: null });
+    handlers.columnMutations(null, "addColumn", { name: text, projId: project.id });
     close();
   };
 </script>
