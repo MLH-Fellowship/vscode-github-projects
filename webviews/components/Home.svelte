@@ -45,7 +45,7 @@
     selectedProject = event.detail.project;
     ext_vscode.postMessage({
       type: "onChooseProject",
-      value: selectedProject,
+      value: { project: selectedProject, container: selectedContainer },
     });
   }
 </script>

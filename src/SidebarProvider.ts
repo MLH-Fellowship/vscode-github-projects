@@ -91,11 +91,11 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
     });
   }
 
-  public static chooseProject(project: any | null) {
+  public static chooseProject(data: any | null) {
     if (SidebarProvider.currentView) {
       SidebarProvider.currentView.webview.postMessage({
         command: "projectChosen",
-        payload: { project: project },
+        payload: { project: data.project, container: data.container },
       });
     }
   }

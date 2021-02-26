@@ -17,6 +17,7 @@
   $: {
     if ($containersInfo.data) {
       containers = [];
+      console.log(filters);
       if (
         $containersInfo.data.viewer.organizations &&
         filters.includes("Organization")
@@ -38,6 +39,7 @@
       }
       if (filters.includes("Personal Profile")) {
         let newUser = addType($containersInfo.data.viewer, "user");
+        console.log(newUser);
         containers = [...containers, newUser];
       }
 
