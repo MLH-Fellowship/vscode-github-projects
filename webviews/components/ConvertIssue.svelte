@@ -1,15 +1,11 @@
 <script>
   import { getContext } from 'svelte';
-  export let message;
+  export let message, handlers;
   const { close } = getContext('simple-modal');
   let body = ""
 
   const convertIssue = () => {
-    //body is issue body and message.note is title
-    //message.card_info is the card
-    //message.column_info is the column
-    //add mutations for converting to issue
-    console.log(message.card_info);
+    handlers.cardMutations(message.card_info, "convertCardToIssue", {body: body, title: message.note});
     close();
   };
 </script>

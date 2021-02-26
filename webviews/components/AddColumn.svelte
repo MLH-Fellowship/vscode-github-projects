@@ -3,10 +3,11 @@
 
   const { close } = getContext('simple-modal');
   let text = "" //column name
+  export let handlers;
 
   const closeAdd = () => {
-    console.log(text);
-    //add mutations for adding column
+    // WE NEED PROJECT ID
+    handlers.columnMutations(null, "addColumn", { name: text, projId: null });
     close();
   };
 </script>

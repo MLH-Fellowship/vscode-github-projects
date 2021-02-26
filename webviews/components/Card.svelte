@@ -2,7 +2,7 @@
   import Modal from "svelte-simple-modal";
   import EditCard from "./EditCard.svelte";
   import IssueCard from "./IssueCard.svelte";
-  export let card, column;
+  export let card, column, handlers;
 </script>
 
 {#if card.note || (card.content && card.content.title)}
@@ -18,7 +18,7 @@
     <div>
       <p>{card.note}</p>
       <Modal>
-        <EditCard card_info={card} column_info={column} note={card.note} on:message/>
+        <EditCard card_info={card} column_info={column} note={card.note} handlers={handlers} on:message/>
       </Modal>
     </div>
   {:else if card.content && card.content.title}
@@ -35,7 +35,7 @@
       </p>
     </div>
     <Modal>
-      <IssueCard card_info={card} column_info={column} note={card.content.title} on:message/>
+      <IssueCard card_info={card} column_info={column} handlers={handlers} note={card.content.title} on:message/>
     </Modal>
   {/if}
 </div>

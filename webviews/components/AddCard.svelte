@@ -1,15 +1,18 @@
 <script>
   import { getContext } from 'svelte';
-  export let message;
+  export let message, handlers;
   const { close } = getContext('simple-modal');
   let text = ""
 
   const closeAdd = () => {
-    console.log(message);
-    //message has the column info
-    //add mutations for adding card
+    handlers.cardMutations(null, "addCard", { note: text, colId: message.id });
     close();
   };
+
+  const closePop = () => {
+    close();
+  };
+
 </script>
 
 <div>
@@ -18,7 +21,7 @@
     <button on:click={closeAdd} style="width:50%; margin-right: 5px;">
       Confirm
     </button>
-    <button on:click={closeAdd} style="width:50%">
+    <button on:click={closePop} style="width:50%">
       Cancel
     </button>
   </div>

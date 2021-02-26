@@ -1,17 +1,15 @@
 <script>
+
   import { getContext } from "svelte";
-  export let message;
+  export let message, handlers;
   import Check from "svelte-material-icons/Check.svelte";
   import Close from "svelte-material-icons/Close.svelte";
-
   const { close } = getContext("simple-modal");
+
   let text = message.note;
 
   const closeAdd = () => {
-    console.log(message.card_info);
-    //message.column_info is the column
-    //message.card_info is the card
-    //add mutations for editing card
+    handlers.cardMutations(message.card_info, "editCard", { note: text });
     close();
   };
 

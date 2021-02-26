@@ -1,11 +1,12 @@
 <script>
   import { getContext } from 'svelte';
   import AddColumn from './AddColumn.svelte';
+  export let handlers;
 
   const { open } = getContext('simple-modal');
 
   const add_col = () => {
-    open(AddColumn, { message: "" }, {closeButton: ""});
+    open(AddColumn, { handlers: handlers, message: "" }, {closeButton: ""});
   };
 </script>
 

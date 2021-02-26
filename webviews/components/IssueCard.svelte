@@ -1,12 +1,11 @@
 <script>
-  export let card_info;
+  export let card_info, handlers;
   const deleteCard = () => {
-    console.log(card_info);
-    //add mutation for deleting card
+    handlers.cardMutations(card_info, "deleteCard");
   };
 
   const archiveCard = () => {
-    //add mutation to archive card
+    handlers.cardMutations(card_info, "editCard", { switchArchive: true });
   }
 
 </script>

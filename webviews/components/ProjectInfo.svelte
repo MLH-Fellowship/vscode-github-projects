@@ -92,7 +92,7 @@
             variables: {
               contentId: null,
               note: payload.note,
-              projectColumnId: payload.column.id,
+              projectColumnId: payload.colId,
             },
           });
           break;
@@ -164,7 +164,7 @@
       switch (request) {
         case "addColumn":
           addColumn({
-            variables: { name: payload.name, projectId: payload.project.id },
+            variables: { name: payload.name, projectId: payload.projId },
           });
           break;
 
@@ -251,5 +251,5 @@
     </div>
   </div>
 
-  <Board allColumns={columns} on:message={handleMessage} />
+  <Board allColumns={columns} handlers={{"cardMutations": handleCardMutations, "columnMutations": handleColumnMutations, "projectMutations": handleProjectMutations}} on:message={handleMessage} />
 {/if}
