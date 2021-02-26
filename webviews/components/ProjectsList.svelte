@@ -9,25 +9,51 @@
     pollInterval: 5000,
   });
 
+  export let filters = [];
+
   let containers = [];
+  let indexes = [];
 
   $: {
     if ($containersInfo.data) {
-      if ($containersInfo.data.viewer.organizations) {
+      containers = [];
+      if (
+        $containersInfo.data.viewer.organizations &&
+        filters.includes("Organization")
+      ) {
         for (let organization of $containersInfo.data.viewer.organizations
           .nodes) {
           let newOrg = addType(organization, "org");
           containers = [...containers, newOrg];
         }
       }
-      if ($containersInfo.data.viewer.repositories) {
+      if (
+        $containersInfo.data.viewer.repositories &&
+        filters.includes("Repository")
+      ) {
         for (let repo of $containersInfo.data.viewer.repositories.nodes) {
           let newRepo = addType(repo, "repo");
           containers = [...containers, newRepo];
         }
       }
-      let newUser = addType($containersInfo.data.viewer, "user");
-      containers = [...containers, newUser];
+      if (filters.includes("Personal Profile")) {
+        let newUser = addType($containersInfo.data.viewer, "user");
+        containers = [...containers, newUser];
+      }
+
+      indexes = [];
+      containers.forEach((container, index) => {
+        if (container.projects) {
+          container.projects.nodes.forEach((project) => {
+            if (
+              filters.includes("Include Closed Projects") ||
+              !project.closed
+            ) {
+              indexes = [...indexes, index];
+            }
+          });
+        }
+      });
     }
   }
 
@@ -51,11 +77,11 @@
 {:else if $containersInfo.error}
   Error: {$containersInfo.error.message}
 {:else}
-  {#each containers as container}
-    <h3>{container.name}</h3>
-    {#if container.projects}
+  {#each containers as container, index}
+    {#if indexes.includes(index)}
+      <h3>{container.name}</h3>
       {#each container.projects.nodes as project}
-        {#if !project.closed}
+        {#if filters.includes("Include Closed Projects") || !project.closed}
           <button on:click={handleSelectProject(container, project)}
             >{project.name}</button
           >

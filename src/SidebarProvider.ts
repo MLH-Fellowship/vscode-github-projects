@@ -9,6 +9,8 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
   ext_uri?: vscode.Uri;
   credentials: Credentials;
 
+  public static currentView: vscode.WebviewView | undefined;
+
   constructor(
     private readonly _extensionUri: vscode.Uri,
     currentContext: vscode.ExtensionContext
@@ -20,6 +22,8 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 
   public resolveWebviewView(webviewView: vscode.WebviewView) {
     this._view = webviewView;
+
+    SidebarProvider.currentView = webviewView;
 
     webviewView.webview.options = {
       // Allow scripts in the webview
@@ -52,12 +56,21 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
             });
 
             if (this.ext_uri) {
-              HomePanel.createOrShow(this.ext_uri, {session: session}); //create a Homepanel window on sign in
+              HomePanel.createOrShow(this.ext_uri, { session: session }); //create a Homepanel window on sign in
             }
           } else {
-            vscode.window.showErrorMessage("Could not authenticate with GitHub, please try again.");
+            vscode.window.showErrorMessage(
+              "Could not authenticate with GitHub, please try again."
+            );
           }
 
+          break;
+        }
+        case "onChangeFilter": {
+          if (!data.value) {
+            return;
+          }
+          HomePanel.updateFilters(data.value);
           break;
         }
         case "onInfo": {
@@ -76,6 +89,15 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
         }
       }
     });
+  }
+
+  public static chooseProject(project: any | null) {
+    if (SidebarProvider.currentView) {
+      SidebarProvider.currentView.webview.postMessage({
+        command: "projectChosen",
+        payload: { project: project },
+      });
+    }
   }
 
   public revive(panel: vscode.WebviewView) {
