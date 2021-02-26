@@ -237,7 +237,18 @@
   <div on:click={handleBackPressed} style="cursor: pointer; width: 25px">
     <KeyboardBackspace width="25" height="25" />
   </div>
-  <h1>{project.name}</h1>
-  <h2>{project.body}</h2>
+
+  <div style="display: flex; flex-direction: row; justify-content: space-between; overflow-x: scroll;">
+    <div style="display: flex; flex-direction: column">
+      <h1>{project.name}</h1>
+      <h2>{project.body}</h2>
+    </div>
+    <div
+      style="display: flex; flex-direction: row; justify-content: flex-start; margin:16px 0px;"
+    >
+      <button style="min-width: 5rem; margin-right:8px;"> View in GitHub </button>
+      <button style="min-width: 5rem;"> Close Project </button>
+    </div>
+  </div>
   <Board allColumns={columns} on:message={handleMessage} />
 {/if}
