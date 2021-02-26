@@ -17,7 +17,7 @@
   {#if card.note}
     <div>
       <p>{card.note}</p>
-      <Modal
+      <Modal>
         <EditCard card_info={card} column_info={column} note={card.note} on:message/>
       </Modal>
     </div>
