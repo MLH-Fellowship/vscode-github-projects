@@ -9,4 +9,4 @@
   };
 </script>
 
-<p><button on:click={add_col} style="width: 100%; margin: 0 8px;"> Add a Column </button></p>
+<p><button on:click={add_col} style="width: 14rem; margin: 0 8px;"> Add a Column </button></p>
