@@ -12,11 +12,11 @@
   export let filters = [];
 
   let containers = [];
+  let indexes = [];
 
   $: {
-    console.log("filters");
-    console.log(filters);
     if ($containersInfo.data) {
+      containers = [];
       if (
         $containersInfo.data.viewer.organizations &&
         filters.includes("Organization")
@@ -40,6 +40,20 @@
         let newUser = addType($containersInfo.data.viewer, "user");
         containers = [...containers, newUser];
       }
+
+      indexes = [];
+      containers.forEach((container, index) => {
+        if (container.projects) {
+          container.projects.nodes.forEach((project) => {
+            if (
+              filters.includes("Include Closed Projects") ||
+              !project.closed
+            ) {
+              indexes = [...indexes, index];
+            }
+          });
+        }
+      });
     }
   }
 
@@ -63,11 +77,11 @@
 {:else if $containersInfo.error}
   Error: {$containersInfo.error.message}
 {:else}
-  {#each containers as container}
-    {#if container.projects}
+  {#each containers as container, index}
+    {#if indexes.includes(index)}
+      <h3>{container.name}</h3>
       {#each container.projects.nodes as project}
         {#if filters.includes("Include Closed Projects") || !project.closed}
-          <h3>{container.name}</h3>
           <button on:click={handleSelectProject(container, project)}
             >{project.name}</button
           >
