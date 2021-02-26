@@ -124,9 +124,9 @@
           // TODO: This is untested, use payload to add a `toColumn` parameter
           switchCardColumn({
             variables: {
-              afterCardId: null,
+              afterCardId: payload.afterCardId,
               cardId: card.id,
-              columnId: payload.toColumn.id,
+              columnId: payload.colId,
             },
           });
           break;
