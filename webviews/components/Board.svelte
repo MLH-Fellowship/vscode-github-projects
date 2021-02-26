@@ -3,7 +3,7 @@
   import { dndzone } from "svelte-dnd-action";
   import { createEventDispatcher } from "svelte";
   import Modal from "svelte-simple-modal";
-  import Content from "./Content.svelte";
+  import AddCardContent from "./AddCardContent.svelte";
   import AddCol from "./AddCol.svelte";
 
   export let allColumns;
@@ -105,17 +105,17 @@
         >
           {#if column.cards}
             {#each column.cards as card (card.id)}
-              <Card {card} on:message={handleMessage} />
+              <Card {card} {column} on:message={handleMessage} />
             {/each}
           {/if}
         </div>
         <Modal>
-          <Content />
+          <AddCardContent {column}/>
         </Modal>
       </div>
     {/each}
+    <Modal>
+      <AddCol />
+    </Modal>
   </div>
-  <Modal>
-    <AddCol />
-  </Modal>
 </div>

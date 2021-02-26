@@ -250,5 +250,6 @@
       <button style="min-width: 5rem;"> Close Project </button>
     </div>
   </div>
+
   <Board allColumns={columns} on:message={handleMessage} />
 {/if}

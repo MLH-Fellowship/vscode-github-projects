@@ -2,16 +2,17 @@
   import { getContext, createEventDispatcher } from "svelte";
   import EditField from "./EditField.svelte";
   import ConvertIssue from "./ConvertIssue.svelte";
-  export let note;
+  export let note, card_info, column_info;
 
   const { open } = getContext("simple-modal");
   const dispatch = createEventDispatcher();
 
   const edit_card = () => {
+    //card_info is the card
     //open popup
     open(
       EditField,
-      { message: note },
+      { message: {note, card_info, column_info} },
       { closeButton: "" },
       {
         onOpen: () => {
@@ -29,12 +30,12 @@
   };
 
   const convertToIssue = () => {
+    //card_info is the card
     //note is the title for the card.
-    open(
-      ConvertIssue,
-      { message: note },
-      { closeButton: "" },
-      {
+    open(ConvertIssue,
+    { message: {note, card_info, column_info} },
+    { closeButton: "" },
+    {
         onOpen: () => {
           dispatch("message", {
             payload: "stopDrag",
@@ -50,10 +51,13 @@
   };
 
   const deleteCard = () => {
+    //column_info is the column where card is
+    //card_info is the card here
     //add mutation for deleting card
   };
 
   const archiveCard = () => {
+    //card_info is the card here
     //add mutation to archive card
   };
 </script>
