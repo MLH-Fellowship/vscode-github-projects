@@ -43,6 +43,7 @@
     Loading...
   {:else if $collaborators.error}
     Error: {$collaborators.error.message}
+  {:else}
     {#each names as name}
       {#if name.name}
         <p>{name.name}</p>
