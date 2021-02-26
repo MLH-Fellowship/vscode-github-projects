@@ -1,11 +1,12 @@
 <script>
   import { getContext } from 'svelte';
-
+  export let message;
   const { close } = getContext('simple-modal');
   let text = ""
 
   const closeAdd = () => {
-    console.log(text);
+    console.log(message);
+    //message has the column info
     //add mutations for adding card
     close();
   };
