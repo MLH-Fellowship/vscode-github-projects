@@ -61,6 +61,8 @@
       See Projects
     </button> -->
 
+    <h2 style="margin-bottom: 1rem">Filter Projects</h2>
+
     {#each menu as flavour}
       <label class="labels">
         <input

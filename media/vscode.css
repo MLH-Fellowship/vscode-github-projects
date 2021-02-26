@@ -92,14 +92,15 @@ textarea::placeholder {
 
 .labels {
 	outline: var(--vscode-listFilterWidget-outline);
-	color: var(--vscode-checkbox-background);
+	color: var(--vscode-checkbox-foreground);
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
 }
 
 .checkBox {
 	font-weight: var(--vscode-font-weight);
 	outline: none !important;
+	margin-bottom: 0.3rem;
 }
 
 .labels:before {
@@ -114,9 +115,9 @@ span {
 	width: 100%;
 }
 
-.labels:hover {
+/* .labels:hover {
 	color: var(--vscode-checkbox-foreground);
-}
+} */
 
 .seeProjectsButton {
 	font-weight: var(--vscode-font-weight);
