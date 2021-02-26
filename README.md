@@ -1,93 +1,65 @@
-In one sentence: A VS Code extension that brings GitHub's projects into VS Code.
-
-How did I make this repository?  You know.
-
-Step 1: npm install -g yo generator-code
-Step 2: yo code (it'll ask you a bunch of questions.  Scroll with the arrow keys!)
-
-What did I select?
-
-I selected **New Extension (TypeScript)**, **vscode-github-projects** as the extension name, vscode-github-projects as the extension identifier, I did set specific description text which you can see in package.json "description".
-
-I said Yes to initialize a git repository, No to "bundle the source code with webpack", and **npm** as the package manager to use.
-
-Currently I just registered a test warning message in extension.js, and in package.json I added the message to **activationEvents** and **contributes/commands**.
-
-How to run in VS Code?  fn + F5 to open a new Extension Development Host window.
-
-⌘ + Shift + P to get Command Palette, in which we can do **Developer: Reload Window** to get saved changes, OR commands such as **Hello World**.
-
-
-
-The rest is just auto-generated text check it out:
-
-# vscode-github-projects README
-
-This is the README for your extension "vscode-github-projects". After writing up a brief description, we recommend including the following sections.
+# VS Code GitHub Projects
+A VS Code extension that brings GitHub's projects into VS Code.  
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+Rather than having a separate Kanban board for collaborating on projects separately from GithHub Projects, we created an extension which allows users to fetch repository, organization, and project data from GitHub Projects - this can be edited within VS Code.  
 
-For example if there is an image subfolder under your extension project workspace:
+### Feature 1: Sidebar with Checkboxes
+- When the user logs in with GitHub, they can select any combination of four options - Personal Profile, Repository, Organization, and can additionally opt to include closed projects.  
+- This will pass down the filter criteria to the Projects List Webview which renders all the GitHub projects.
 
-\!\[feature X\]\(images/feature-x.png\)
+### Feature 2: Navigation
+- Each organization has its own header
+- We can click on the repository to view more information.  
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+### Feature 3: Project Info View
+- Once we click on a project, we reach the project info view, which has a back button for easier navigation, a link to the GitHub repository, and a Close Project button.  
+- We also display each project column (e.g. needs work, in progress, done).  
 
-## Requirements
+### Feature 4: Display each column, and easily delete and archive cards. 
+- The `Issue` button links us to the GitHub issue website.  
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+### Feature 5: Add a new column
+- The `Add a column` button allows us to add a new column by name, with a confirm/cancel feature.  
 
-## Extension Settings
+## Built with:
+- TypeScript
+- Svelte
+- Rollup
+- GitHub API (Apollo GraphQL)
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+## Icon source
+- [Codicons](https://microsoft.github.io/vscode-codicons/dist/codicon.html)
 
-For example:
+## Contributors
 
-This extension contributes the following settings:
+- [Samuel Yuan] (https://github.com/yuansamuel)
+- [Shrill Shrestha] (https://github.com/shrillshrestha)
+- [Aitik Gupta] (https://github.com/aitikgupta)
+- [Dean Gladish] (https://github.com/gladishd)
 
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
+## How to run locally?
+- git clone https://github.com/Open-Sourced-Olaf/vscode-github-projects.git
+- npm install
+- npm run watch
+- code .
+- fn + F5 (or Launch Extension in command palette)
+- Don't forget to sign in with GitHub!  
 
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
+## How to contribute?
+Open a new issue in our extension!  As long as you're in MLH you can make new issues and create pull requests on this project.  
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
-
 ### 1.0.0
 
-Initial release of ...
+Initial release:  Using generator code (npm install -g yo generator-code) I created a new extension in TypeScript.  We decided to use the Webview API because it allows our extension view to be fully customizable.  Webviews run in isolated contexts that cannot directly access local resources, so we used GQL to query GitHub.  
 
-### 1.0.1
+We're using various lifecycle methods such as updateFilters, kill, revive, dispose, update, and finally we compile our HTML for the webview which is based on TypeScript components.  Using Svelte and Apollo to share our GitHub repository information with our WebView panel, we aimed to create an app which would bring GitHub projects to life in a VS Code-themed way, including Rollup in order to generate an out/compiled folder which is what bundles our project into JavaScript. 
 
-Fixed issue #.
+Rollup compiles our code into JS, and we access only the media aspect of the compiled stuff (the extension layer) in order to load content.  And we're using this really cool VS Code API object in order to post new messages and establish connections between the front-end and the extension itself.  
 
-### 1.1.0
-
-Added features X, Y, and Z.
+The principal components are the Home, Extension, Sidebar, Sidebar Provider, Project Info, and Project List components.  
 
 -----------------------------------------------------------------------------------------------------------
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (macOS) to see a list of Markdown snippets
-
-### For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
