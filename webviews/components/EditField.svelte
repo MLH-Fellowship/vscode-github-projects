@@ -18,10 +18,10 @@
   };
 </script>
 
-<div>
+<div style="margin-top: 0.4rem">
   <input bind:value={text} />
   <div
-    style="display: flex; flex-direction: row; justify-content: space-around;"
+    style="display: flex; flex-direction: row; justify-content: space-around; margin-top: 0.4rem"
   >
     <div on:click={closeAdd} style="cursor: pointer;">
       <Check height="20" width="20" />

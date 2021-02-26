@@ -30,10 +30,11 @@
 
   const convertToIssue = () => {
     //note is the title for the card.
-    open(ConvertIssue,
-    { message: note },
-    { closeButton: "" },
-    {
+    open(
+      ConvertIssue,
+      { message: note },
+      { closeButton: "" },
+      {
         onOpen: () => {
           dispatch("message", {
             payload: "stopDrag",
@@ -46,7 +47,7 @@
         },
       }
     );
-  }
+  };
 
   const deleteCard = () => {
     //add mutation for deleting card
@@ -54,8 +55,7 @@
 
   const archiveCard = () => {
     //add mutation to archive card
-  }
-
+  };
 </script>
 
 <div>
