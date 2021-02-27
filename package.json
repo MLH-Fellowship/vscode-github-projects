@@ -10,25 +10,26 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onView:vsc-github-projects",
-		"onCommand:vscode-github-projects.revelProjects"
+		"onView:proj-sidebar",
+		"onCommand:vscode-github-projects.helloWorld",
+		"onCommand:vscode-github-projects.showWarningMessage"
 	],
 	"main": "./dist/extension",
 	"contributes": {
 		"viewsContainers": {
 			"activitybar": [
 				{
-					"id": "vsc-github-projects-view",
+					"id": "proj-sidebar-view",
 					"title": "VS-GitHub-Projects",
 					"icon": "media/project.svg"
 				}
 			]
 		},
 		"views": {
-			"vsc-github-projects-view": [
+			"proj-sidebar-view": [
 				{
 					"type": "webview",
-					"id": "vsc-github-projects",
+					"id": "proj-sidebar",
 					"name": "VS-GitHub-Projects",
 					"icon": "media/project.svg",
 					"contextualTitle": "VS-GitHub-Projects"
@@ -37,9 +38,12 @@
 		},
 		"commands": [
 			{
-				"command": "vscode-github-projects.revelProjects",
-				"title": "Revel Projects",
-				"category": "VSCODE-GITHUB-PROJECTS"
+				"command": "vscode-github-projects.helloWorld",
+				"title": "Hello World"
+			},
+			{
+				"command": "vscode-github-projects.showWarningMessage",
+				"title": "Show Warning Message"
 			}
 		]
 	},

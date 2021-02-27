@@ -29,19 +29,21 @@ Rather than having a separate Kanban board for collaborating on projects separat
 - Rollup
 - GitHub API (Apollo GraphQL)
 
+## Icon source
+- [Codicons](https://microsoft.github.io/vscode-codicons/dist/codicon.html)
+
 ## Contributors
 
-- [Samuel Yuan](https://github.com/yuansamuel)
-- [Shrill Shrestha](https://github.com/shrillshrestha)
-- [Aitik Gupta](https://github.com/aitikgupta)
-- [Dean Gladish](https://github.com/gladishd)
+- [Samuel Yuan] (https://github.com/yuansamuel)
+- [Shrill Shrestha] (https://github.com/shrillshrestha)
+- [Aitik Gupta] (https://github.com/aitikgupta)
+- [Dean Gladish] (https://github.com/gladishd)
 
 ## How to run locally?
-- `git` clone https://github.com/Open-Sourced-Olaf/vscode-github-projects.git
-- `cd` into the  project folder
-- `code .`
-- `npm install`
-- `npm run webpack`
+- git clone https://github.com/Open-Sourced-Olaf/vscode-github-projects.git
+- npm install
+- npm run watch
+- code .
 - fn + F5 (or Launch Extension in command palette)
 - Don't forget to sign in with GitHub!  
 
