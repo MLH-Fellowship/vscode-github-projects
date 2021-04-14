@@ -14,7 +14,7 @@
 		"onCommand:vscode-github-projects.helloWorld",
 		"onCommand:vscode-github-projects.showWarningMessage"
 	],
-	"main": "./dist/extension",
+	"main": "./dist/extension.js",
 	"contributes": {
 		"viewsContainers": {
 			"activitybar": [
@@ -48,14 +48,14 @@
 		]
 	},
 	"scripts": {
-		"compile": "tsc -p ./",
-		"watch": "concurrently \"rollup -c -w\" \"tsc -watch -p ./\"",
+		"compile": "webpack --mode development",
+		"watch": "concurrently \"rollup -c -w\" \"webpack --mode development --watch\"",
 		"pretest": "npm run compile && npm run lint",
 		"lint": "eslint src --ext ts",
 		"test": "node ./out/test/runTest.js",
 		"vscode:prepublish": "webpack --mode production",
-		"webpack": "webpack --mode development",
-		"webpack-dev": "webpack --mode development --watch",
+		"webpack": "rollup -c && webpack --mode development",
+		"tsc-dev": "concurrently \"rollup -c -w\" \"tsc -watch -p ./\"",
 		"test-compile": "tsc -p ./"
 	},
 	"devDependencies": {
